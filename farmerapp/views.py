@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse
 from .models import FarmerSellProduct,Profile
 from fmiapp.models import FarmerInfo
+from merchantapp.models import orderDetail
 # Create your views here.
 def farmerhome(request):
     try:
@@ -50,3 +51,19 @@ def removeprod(request,id):
     print(product)
     product.delete()
     return HttpResponse("Delete")
+
+
+def sold(request):
+    if request.session['farmer']:
+        merchantobj = FarmerInfo.objects.get(userid=request.session['farmer'])
+        merchantId = merchantobj.aadharno
+
+        # orderObj = orderDetail.objects.all()
+
+        orderObj = orderDetail.objects.filter(farmerId = merchantId)
+        print("************")
+        print(orderObj[0].qty)
+        # print(orderObj)
+        print("************")
+        context = {'orderObj':orderObj}
+        return render(request,"sold.html",context)

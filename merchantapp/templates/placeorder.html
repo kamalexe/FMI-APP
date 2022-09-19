@@ -14,8 +14,6 @@
         <div class="container my-3">
             <form class="row g-3" action="{% url 'merchantapp:purchaseCustomerDetail' %} " method="POST">
                 {% csrf_token %}
-                <input type="text" class="form-control" readonly value="{{merchantName}}" hidden name="merchantName">
-                <input type="text" class="form-control" readonly value="{{merchantName.id}}" hidden name="merchantId">
                 <input type="text" class="form-control" readonly value="{{product.id}}" hidden name="productid">
                 <div class="col-md-6">
                     <label class="form-label">Email</label>

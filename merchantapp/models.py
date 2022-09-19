@@ -15,7 +15,9 @@ class orderDetail(models.Model):
     zip = models.CharField(max_length=10, default="")
     merchantName = models.CharField(max_length=10, default="")
     merchantId = models.CharField(max_length=10, default="")
+    farmerName = models.CharField(max_length=10, default="")
+    farmerId = models.CharField(max_length=10, default="")
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.product + self.address
+        return self.product

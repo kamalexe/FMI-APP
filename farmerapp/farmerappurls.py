@@ -7,4 +7,5 @@ urlpatterns = [
     path('uploadProd', views.uploadProd, name='uploadProd'),
     path('prodlist', views.prodlist, name='prodlist'),
     path('removeprod/<str:id>', views.removeprod, name='removeprod'),
+    path('sold', views.sold, name='sold'),
 ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse
-from fmiapp.models import MerchantInfo
+from fmiapp.models import MerchantInfo,FarmerInfo
 from farmerapp.models import FarmerSellProduct
 from .models import orderDetail
 
@@ -18,23 +18,31 @@ def merchanthome(request):
 def viewProd(request,id):
     merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
     product = FarmerSellProduct.objects.get(id = id)
+    sellerobj= FarmerInfo.objects.get(aadharno = product.farmerName)
+    print('----viewProd')
+    print(sellerobj.name)
     total = int(product.qty) * int(product.price)
-    context = {'product':product,'total':total,'merchantName':merchantName}
+    context = {'product':product,'total':total,'merchantName':merchantName,'sellerName':sellerobj.name}
     return render(request ,'viewprod.html',context)
 
 def placeorder(request,id):
     merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
     merchantid = merchantName.userid
     print('-----')
-    print("29"+merchantid)
+    print("29 "+merchantid)
     print('-----')
     product = FarmerSellProduct.objects.get(id=id)
+    print(product.farmerName)
     total = int(product.qty) * int(product.price)
     context = {'product': product,'merchantName': merchantName,'total':total}
 
     return render(request,'placeorder.html',context)
 
 def purchaseCustomerDetail(request):
+    productid = request.POST['productid']
+    soldProduct = FarmerSellProduct.objects.get(id=productid)
+    sellerobj = FarmerInfo.objects.get(aadharno=soldProduct.farmerName)
+
     email = request.POST['email']
     customer = request.POST['customer']
     address = request.POST['address']
@@ -46,14 +54,26 @@ def purchaseCustomerDetail(request):
     city = request.POST['city']
     state = request.POST['state']
     zip = request.POST['zip']
-    merchantName = request.POST['merchantName']
-    merchantId = request.POST['merchantId']
-    print("MERCHANT id-"+merchantId)
-    detail = orderDetail(email= email,customer=customer, address = address, panno=panno, gstno=gstno, product=product, qty=qty, price=price,city=city,state=state,zip=zip,merchantName=merchantName,merchantId=merchantId)
+    merchantobj = MerchantInfo.objects.get(userid=request.session['merchant'])
+    merchantId = merchantobj
+    merchantName = merchantobj.name
+    farmerName = sellerobj.name
+    farmerId = sellerobj
+
+    detail = orderDetail(email= email,customer=customer, address = address, panno=panno, gstno=gstno, product=product, qty=qty, price=price,city=city,state=state,zip=zip,merchantName=merchantName,merchantId=merchantId,farmerName=farmerName,farmerId=farmerId)
     detail.save()
-    productid = request.POST['productid']
-    print('product: '+productid)
-    soldProduct = FarmerSellProduct.objects.filter(id=productid)
-    print('sold: '+soldProduct)
     soldProduct.delete()
-    return HttpResponse('Congratulation you own that Items')
+    return redirect(reverse('merchantapp'))
+
+def purchasedprod(request):
+    if request.session['merchant']:
+        merchantobj = MerchantInfo.objects.get(userid=request.session['merchant'])
+        merchantId = merchantobj.aadharno
+
+        # orderObj = orderDetail.objects.all().merchantId[0]
+        orderObj = orderDetail.objects.filter(merchantId = merchantId)
+        print("************")
+        print(orderObj[0].email)
+        print("************")
+        context = {'orderObj':orderObj}
+        return render(request,"purchasedprod.html",context)

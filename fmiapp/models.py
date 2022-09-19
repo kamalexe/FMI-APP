@@ -23,7 +23,7 @@ class FarmerInfo(models.Model):
     usertype = models.CharField(max_length=20, default="farmer")
 
     def __str__(self):
-        return self.name
+        return self.aadharno
 
 
 class MerchantInfo(models.Model):
@@ -42,7 +42,7 @@ class MerchantInfo(models.Model):
     usertype = models.CharField(max_length=20, default="merchant")
 
     def __str__(self):
-        return self.name
+        return self.aadharno
 
 
 class Enquiry(models.Model):
