@@ -18,5 +18,7 @@ urlpatterns = [
     path('changepwd/', views.changepwd, name='changepwd'),
     path('pay/<str:ano>', views.pay, name='pay'),
     path('paid/', views.paid, name='paid'),
+    path('sellingitems/', views.sellingitems, name='sellingitems'),
+    path('solditem/', views.solditem, name='solditem'),
 
 ]

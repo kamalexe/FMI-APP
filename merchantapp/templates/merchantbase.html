@@ -56,7 +56,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'adminapp:adminhome' %}">
+                <a class="nav-link" href="{% url 'merchantapp:merchanthome' %}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -74,14 +74,14 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-user-gear"></i>
-                    <span>Admin</span>
+                    <span>Profile</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Admin:</h6>
-                        <a class="collapse-item" href="{% url 'adminapp:changepassword' %}">Change Password</a>
-                        <a class="collapse-item" href="{% url 'employee:emphome' %}">Employee Management</a>
-                        <a class="collapse-item" href="{% url 'adminapp:logout' %}">Logout</a>
+                        <h6 class="collapse-header">Profile:</h6>
+                        <a class="collapse-item" href="#">Edit Profile</a>
+                        <a class="collapse-item" href="#">Change Password</a>
+                        <a class="collapse-item" href="{% url 'merchantapp:logout' %}">Logout</a>
                     </div>
                 </div>
             </li>
@@ -104,7 +104,7 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'adminapp:enquiries' %}">
+                <a class="nav-link" href="#">
                   <i class="fa-solid fa-list-check"></i>
                     <span>Enquiry Management</span></a>
             </li>

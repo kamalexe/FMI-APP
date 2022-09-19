@@ -1,0 +1,85 @@
+{% extends 'adminbase.html' %}
+
+{% block body%}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Sold Item</h1>
+    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank">official DataTables documentation</a>.
+    </p>
+
+    <!-- DataTales -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Merchant</th>
+                        <th>Farmer</th>
+                        <th>E-mail</th>
+                        <th>Address</th>
+                        <th>PAN</th>
+                        <th>GST</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Merchant</th>
+                        <th>Farmer</th>
+                        <th>E-mail</th>
+                        <th>Address</th>
+                        <th>PAN</th>
+                        <th>GST</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Date</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for s in soldobj %}
+                    <tr>
+                        <td class="">{{ s.product }}</td>
+                        <td class="">{{ s.qty }}</td>
+                        <td class="">{{ s.price }}</td>
+                        <td class="">
+                            <section>{{ s.merchantName }}</section>
+                            <section class="small">{{ s.merchantId }}</section>
+                        </td>
+                        <td class="">
+                            <section>{{ s.farmerName }}</section>
+                            <section class="small">{{ s.farmerId }}</section>
+                        </td>
+                        <td class="">{{ s.email }}</td>
+                        <td class="">{{ s.address }}</td>
+                        <td class="">{{ s.panno }}</td>
+                        <td class="">{{ s.gstno }}</td>
+                        <td class="">{{ s.city }}</td>
+                        <td class="">{{ s.state }}</td>
+                        <td class="">{{ s.zip }}</td>
+                        <td class="">{{ s.date }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

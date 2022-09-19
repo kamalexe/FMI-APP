@@ -5,6 +5,8 @@ from .models import orderDetail
 
 # Create your views here.
 def merchanthome(request):
+    if not request.session['merchant']:
+        return render(request, 'login.html')
     if request.session['merchant']:
         merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
         allProduct = FarmerSellProduct.objects.all()
@@ -15,7 +17,14 @@ def merchanthome(request):
         print('-------')
     return render(request,'merchanthome.html',context )
 
+def logout(request):
+    request.session['merchant'] = None
+    return render(request, 'login.html')
+
+
 def viewProd(request,id):
+    if not request.session['merchant']:
+        return render(request, 'login.html')
     merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
     product = FarmerSellProduct.objects.get(id = id)
     sellerobj= FarmerInfo.objects.get(aadharno = product.farmerName)
@@ -26,6 +35,8 @@ def viewProd(request,id):
     return render(request ,'viewprod.html',context)
 
 def placeorder(request,id):
+    if not request.session['merchant']:
+        return render(request, 'login.html')
     merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
     merchantid = merchantName.userid
     print('-----')
@@ -39,6 +50,8 @@ def placeorder(request,id):
     return render(request,'placeorder.html',context)
 
 def purchaseCustomerDetail(request):
+    if not request.session['merchant']:
+        return render(request, 'login.html')
     productid = request.POST['productid']
     soldProduct = FarmerSellProduct.objects.get(id=productid)
     sellerobj = FarmerInfo.objects.get(aadharno=soldProduct.farmerName)

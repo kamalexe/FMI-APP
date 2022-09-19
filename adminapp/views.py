@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from fmiapp.models import Enquiry, LoginInfo, FarmerInfo, MerchantInfo
 from .models import Booking, News
+from merchantapp.models import orderDetail
+from farmerapp.models import FarmerSellProduct
 import datetime
 
 
 # Create your views here.
 def adminhome(request):
+    if not request.session['admin']:
+        return render(request, 'login.html')
     try:
         if request.session['admin']:
             ns = News.objects.all()
@@ -132,3 +136,19 @@ def paid(request):
     restamt = restamt-payamt
     Booking.objects.filter(aadharno=aadharno).update(restamt=restamt)
     return redirect('adminapp:purchase')
+# First farmenr name in FarmerSellProduct and then show
+def sellingitems(request):
+    soldobj = orderDetail.objects.all()
+    productObj = FarmerSellProduct.objects.all()
+    # print(productObj[0].farmerName)
+    farmerName = FarmerInfo.objects.filter(aadharno = productObj[0].farmerName)[0].name
+    print('-------------------#######_---------')
+    print(farmerName)
+    context = {'soldobj':soldobj,'productObj':productObj,'farmerName':farmerName}
+    return render(request,'sellingitems.html',context)
+
+def solditem(request):
+    soldobj = orderDetail.objects.all()
+    context = {'soldobj': soldobj}
+    print(context)
+    return render(request,'solditem.html',context)

@@ -4,22 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f16768b-6d8e-4b4c-ac30-84a84f6ecc2c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/farmerapp/templates/sold.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/merchantapp/templates/purchasedprod.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/fmiproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/fmiproject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="6f16768b-6d8e-4b4c-ac30-84a84f6ecc2c" name="Changes" comment="Add sold List in Farmer App &#10;Add purchase list on Merchant App">
+      <change afterPath="$PROJECT_DIR$/adminapp/templates/sellingitems.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adminapp/templates/solditem.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminapp/adminappurls.py" beforeDir="false" afterPath="$PROJECT_DIR$/adminapp/adminappurls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminapp/templates/adminbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/adminapp/templates/adminbase.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/adminapp/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/farmerapp/farmerappurls.py" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/farmerappurls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/farmerapp/templates/farmerbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/templates/farmerbase.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/farmerapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fmiapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/fmiapp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/merchantapp/merchantappurls.py" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/merchantappurls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/merchantapp/templates/merchantbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/merchantbase.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/templates/placeorder.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/placeorder.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/templates/viewprod.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/viewprod.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/merchantapp/templates/merchanthome.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/merchanthome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/merchantapp/templates/purchasedprod.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/purchasedprod.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/merchantapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,12 +51,14 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/merchantapp" />
   </component>
   <component name="RecentsManager">
@@ -78,6 +76,14 @@
       <option name="presentableId" value="Default" />
       <updated>1663464471156</updated>
     </task>
+    <task id="LOCAL-00001" summary="Add sold List in Farmer App &#10;Add purchase list on Merchant App">
+      <created>1663574857774</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1663574857774</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -93,5 +99,18 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Add sold List in Farmer App &#10;Add purchase list on Merchant App" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add sold List in Farmer App &#10;Add purchase list on Merchant App" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/adminapp/views.py</url>
+          <line>139</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
