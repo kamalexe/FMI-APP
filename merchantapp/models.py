@@ -3,10 +3,12 @@ from django.db import models
 # Create your models here.
 class orderDetail(models.Model):
     email = models.CharField(max_length=100, default="")
+    track_update = models.CharField(max_length=600, default="Your Order has been placed")
     customer = models.CharField(max_length=50, default="")
     address = models.CharField(max_length=150, default="")
     panno = models.CharField(max_length=10, default="")
     gstno = models.CharField(max_length=15, default="")
+    productid = models.CharField(max_length=150, default="")
     product = models.CharField(max_length=150, default="")
     qty = models.CharField(max_length=10, default="")
     price = models.CharField(max_length=12, default="")

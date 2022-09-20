@@ -1,7 +1,9 @@
-from django.shortcuts import render,HttpResponse
-from .models import FarmerSellProduct,Profile
+from django.shortcuts import render,HttpResponse,reverse,redirect
+from .models import FarmerSellProduct,Profile,Tracker
 from fmiapp.models import FarmerInfo
 from merchantapp.models import orderDetail
+from datetime import datetime
+
 # Create your views here.
 def farmerhome(request):
     try:
@@ -16,8 +18,6 @@ def farmerhome(request):
 
 def uploadProd(request):
     if request.session['farmer']:
-        ns = "Login Success Full"
-        print("Login Success Full")
         farmerName = FarmerInfo.objects.get(userid = request.session['farmer'] )
 
         print(farmerName,request.session['farmer'])
@@ -29,7 +29,9 @@ def uploadProd(request):
             products = FarmerSellProduct.objects.create(farmerName = farmerName,qty= qty,productName = productName, price= price)
             print(price, productName, qty)
             print(products)
-    return HttpResponse("Post SUbmit")
+            ns = "Product Added"
+            context = {'ns':ns}
+    return render(request, 'farmerhome.html', context)
 # Logout
 def logout(request):
     request.session['farmer'] = None
@@ -50,7 +52,7 @@ def removeprod(request,id):
     product = FarmerSellProduct.objects.filter(id=id)
     print(product)
     product.delete()
-    return HttpResponse("Delete")
+    return redirect(reverse('farmerapp:prodlist'))
 
 
 def sold(request):
@@ -67,3 +69,14 @@ def sold(request):
         print("************")
         context = {'orderObj':orderObj}
         return render(request,"sold.html",context)
+
+def updateStatus(request):
+    if request.method == 'POST':
+        orderId = request.POST['orderId']
+        status = request.POST['status']
+        updateDate = datetime.now()
+        orderObj = orderDetail.objects.filter(id=orderId).update(track_update=status)
+        trackObj = Tracker(orderId = orderId,orderStatus= status)
+        trackObj.save()
+    return redirect(reverse('farmerapp:sold'))
+    # return HttpResponse("update")

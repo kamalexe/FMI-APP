@@ -19,6 +19,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th scope="col">Order Id</th>
                         <th scope="col">Merchant Id</th>
                         <th scope="col">Merchant Name</th>
                         <th scope="col">Product</th>
@@ -27,12 +28,15 @@
                         <th scope="col">City</th>
                         <th scope="col">PAN</th>
                         <th scope="col">GST</th>
+                        <th scope="col">Order Update</th>
+                        <th scope="col">Update Date</th>
                         <th scope="col">Date</th>
                     </tr>
                     </thead>
                     <tfoot>
 
                     <tr>
+                        <th scope="col">Order Id</th>
                         <th scope="col">Merchant Id</th>
                         <th scope="col">Merchant Name</th>
                         <th scope="col">Product</th>
@@ -41,6 +45,8 @@
                         <th scope="col">City</th>
                         <th scope="col">PAN</th>
                         <th scope="col">GST</th>
+                        <th scope="col">Order Update</th>
+                        <th scope="col">Update Date</th>
                         <th scope="col">Date</th>
                     </tr>
                     </tfoot>
@@ -48,6 +54,7 @@
                     {% for b in orderObj %}
                     <tr>
                         <!--                        <th scope="row">{{ b.farmerName }}</th>-->
+                        <td>{{ b.id }}</td>
                         <td>{{ b.merchantId }}</td>
                         <td>{{ b.merchantName }}</td>
                         <td>{{b.product}}</td>
@@ -56,6 +63,18 @@
                         <td>{{b.city}}</td>
                         <td>{{b.panno}}</td>
                         <td>{{b.gstno}}</td>
+                        <td style="min-width:10rem;">
+
+                            <div class="input-group mb-3">
+                                <form method="post" action="{% url 'farmerapp:updateStatus' %}">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control " name="orderId" value="{{ b.id }}" hidden>
+                                    <textarea type="text" class="form-control text-center" name="status" placeholder="{{ b.track_update }}"></textarea>
+                                    <input class="btn btn-outline-secondary btn-sm btn-block my-2" type="submit" value="Update">
+                                </form>
+                            </div>
+                        </td>
+                        <td>{{b.date}}</td>
                         <td>{{b.date}}</td>
                     </tr>
                     {% endfor %}

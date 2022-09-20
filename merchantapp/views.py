@@ -1,7 +1,8 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,redirect,reverse
 from fmiapp.models import MerchantInfo,FarmerInfo
-from farmerapp.models import FarmerSellProduct
+from farmerapp.models import FarmerSellProduct,Tracker
 from .models import orderDetail
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def merchanthome(request):
@@ -73,20 +74,45 @@ def purchaseCustomerDetail(request):
     farmerName = sellerobj.name
     farmerId = sellerobj
 
-    detail = orderDetail(email= email,customer=customer, address = address, panno=panno, gstno=gstno, product=product, qty=qty, price=price,city=city,state=state,zip=zip,merchantName=merchantName,merchantId=merchantId,farmerName=farmerName,farmerId=farmerId)
+    detail = orderDetail(email= email,customer=customer, address = address, panno=panno, gstno=gstno,productid=productid, product=product, qty=qty, price=price,city=city,state=state,zip=zip,merchantName=merchantName,merchantId=merchantId,farmerName=farmerName,farmerId=farmerId)
     detail.save()
     soldProduct.delete()
-    return redirect(reverse('merchantapp'))
+    # merchantobj = MerchantInfo.objects.get(userid=request.session['merchant'])
+    # merchantId = merchantobj.aadharno
+
+    # orderObj = orderDetail.objects.all().merchantId[0]
+    orderObj = orderDetail.objects.filter(merchantId=merchantId,productid=productid)
+    print("************")
+    print(orderObj[0].id)
+    # print(merchantId)
+    # print(productid)
+    updateTrack = Tracker(orderId = orderObj[0].id)
+    updateTrack.save()
+    # return HttpResponse('purchaseCustomerDetail pass')
+    return redirect(reverse('merchantapp:purchasedprod'))
 
 def purchasedprod(request):
     if request.session['merchant']:
         merchantobj = MerchantInfo.objects.get(userid=request.session['merchant'])
         merchantId = merchantobj.aadharno
-
-        # orderObj = orderDetail.objects.all().merchantId[0]
         orderObj = orderDetail.objects.filter(merchantId = merchantId)
-        print("************")
-        print(orderObj[0].email)
-        print("************")
+
         context = {'orderObj':orderObj}
         return render(request,"purchasedprod.html",context)
+
+def trackOrder(request):
+    merchantobj = MerchantInfo.objects.get(userid=request.session['merchant'])
+    merchantId = merchantobj.aadharno
+    orderObj = orderDetail.objects.filter(merchantId=merchantId)
+    orderId = request.POST['orderId']
+    track = Tracker.objects.filter(orderId=orderId)
+    notFound = ''
+    if  track.count() ==0:
+        track={'orderStatus':'Not Found'}
+        print('@@@@@@@@@@@@@@@@@@@')
+        notFound = "This is not available for to track"
+        print('@@@@@@@@@@@@@@@@@@@')
+    # print(track)
+    context ={'track':track,'orderObj':orderObj,'notFound':notFound}
+    # return HttpResponseRedirect(reverse('merchantapp:purchasedprod',args=(context,)))
+    return render(request,"purchasedprod.html",context)
