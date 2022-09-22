@@ -9,4 +9,7 @@ urlpatterns = [
     path('removeprod/<str:id>', views.removeprod, name='removeprod'),
     path('sold', views.sold, name='sold'),
     path('updateStatus', views.updateStatus, name='updateStatus'),
+    path('currentprice', views.currentprice, name='currentprice'),
+    path('changepasword/', views.changepasword, name='changepasword'),
+    path('changepwd/', views.changepwd, name='changepwd'),
 ]

@@ -12,9 +12,10 @@ def adminhome(request):
         return render(request, 'login.html')
     try:
         if request.session['admin']:
+            admin_name = LoginInfo.objects.get(userid = request.session['admin'])
             ns = News.objects.all()
 
-            return render(request, 'adminhome.html', {'ns': ns})
+            return render(request, 'adminhome.html', {'ns': ns,'admin_name':admin_name})
     except:
         return render(request, 'login.html')
 

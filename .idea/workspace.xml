@@ -5,17 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f16768b-6d8e-4b4c-ac30-84a84f6ecc2c" name="Changes" comment="Add sold List in Farmer App &#10;Add purchase list on Merchant App">
+      <change afterPath="$PROJECT_DIR$/farmerapp/templates/currentprice.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/farmerapp/templates/farmerchangepwd.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminapp/templates/adminbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/adminapp/templates/adminbase.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminapp/templates/adminhome.html" beforeDir="false" afterPath="$PROJECT_DIR$/adminapp/templates/adminhome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminapp/templates/solditem.html" beforeDir="false" afterPath="$PROJECT_DIR$/adminapp/templates/solditem.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/adminapp/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/farmerapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/farmerapp/farmerappurls.py" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/farmerappurls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/farmerapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/farmerapp/templates/farmerbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/templates/farmerbase.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/farmerapp/templates/farmerhome.html" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/templates/farmerhome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/farmerapp/templates/prodList.html" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/templates/prodList.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/farmerapp/templates/sold.html" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/templates/sold.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/farmerapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/merchantappurls.py" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/merchantappurls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fmiapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/fmiapp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/merchantapp/templates/purchasedprod.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/purchasedprod.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,10 +64,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/merchantapp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/farmerapp/templates" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Lenovo\Desktop\fmiprojectfinalmy\FMI-APP\farmerapp\templates" />
       <recent name="C:\Users\Lenovo\Desktop\fmiprojectfinalmy\fmiproject\merchantapp" />
       <recent name="C:\Users\Lenovo\Desktop\fmiprojectfinalmy\fmiproject" />
     </key>
@@ -106,7 +113,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/adminapp/views.py</url>
-          <line>139</line>
+          <line>140</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

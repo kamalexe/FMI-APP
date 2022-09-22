@@ -20,3 +20,5 @@ class Tracker(models.Model):
     orderId = models.CharField(max_length=100, default="")
     orderStatus = models.CharField(max_length=100, default="Your Order has been placed")
     updateDate = models.DateTimeField(default=datetime.now(), blank=True)
+    def __str__(self):
+        return self.orderId

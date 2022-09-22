@@ -6,7 +6,7 @@ class LoginInfo(models.Model):
     password = models.CharField(max_length=20)
     usertype = models.CharField(max_length=50, default="admin")
     def __str__(self):
-        return self.usertype
+        return self.userid
 
 
 # Create your models here.
