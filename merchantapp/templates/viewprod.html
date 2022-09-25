@@ -1,7 +1,7 @@
 {% extends 'merchantbase.html' %}
 
 {% block username%}
-{{merchantName}}
+{{merchantName.name}}
 {% endblock %}
 
 {% block body%}
@@ -62,9 +62,17 @@
                             passages, and more recently with desktop publishing software like Aldus PageMaker including
                             versions of Lorem Ipsum.
                         </p>
-                        <div class="d-grid gap-2">
-                            <a href="placeorder/{{product.id}}" class="btn btn-primary">Buy Now</a>
-                        </div>
+                         <div class='row'>
+                                <div class='col-sm-8'>
+                                    <a href="placeorder/{{product.id}}" class="btn btn-primary btn-sm w-100">Buy Now</a>
+                                </div>
+                                <div class='col-sm-4'>
+                                    <form action='like_post/{{product.id}}' method='POST'>
+                                        {% csrf_token %}
+                                        <button type='submit' name='{{product.id}}' value='{{product.id}}' class="btn btn-primary btn-sm w-100">{{product.total_likes}} Like <i class="{{likesymb}}"></i></button>
+                                    </form>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

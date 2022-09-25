@@ -11,11 +11,7 @@ def merchanthome(request):
     if request.session['merchant']:
         merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
         allProduct = FarmerSellProduct.objects.all()
-        print(allProduct)
         context = {'merchantName':merchantName,'allProduct':allProduct}
-        print('-------')
-        print(request.session['merchant'])
-        print('-------')
     return render(request,'merchanthome.html',context )
 
 def logout(request):
@@ -32,7 +28,19 @@ def viewProd(request,id):
     print('----viewProd')
     print(sellerobj.name)
     total = int(product.qty) * int(product.price)
-    context = {'product':product,'total':total,'merchantName':merchantName,'sellerName':sellerobj.name}
+
+    # Like Unlike
+    merchantid = merchantName.aadharno
+    product = FarmerSellProduct.objects.get(id=id)
+    liked = False
+    likesymb = "fa-solid fa-thumbs-up"
+    if product.likes.filter(aadharno=merchantid).exists():
+        likesymb = "fa-solid fa-thumbs-up"
+    else:
+        likesymb = "fa-regular fa-thumbs-up"
+        liked = True
+
+    context = {'product':product,'total':total,'merchantName':merchantName,'sellerName':sellerobj.name,'likesymb':likesymb}
     return render(request ,'viewprod.html',context)
 
 def placeorder(request,id):
@@ -97,7 +105,7 @@ def purchasedprod(request):
         merchantId = merchantobj.aadharno
         orderObj = orderDetail.objects.filter(merchantId = merchantId)
 
-        context = {'orderObj':orderObj}
+        context = {'orderObj':orderObj,'merchantName':merchantobj}
         return render(request,"purchasedprod.html",context)
 
 def trackOrder(request):
@@ -116,3 +124,16 @@ def trackOrder(request):
     context ={'track':track,'orderObj':orderObj,'notFound':notFound}
     # return HttpResponseRedirect(reverse('merchantapp:purchasedprod',args=(context,)))
     return render(request,"purchasedprod.html",context)
+
+def LikeView(request,id):
+    merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
+    merchantid = merchantName.aadharno
+    product = FarmerSellProduct.objects.get(id=id)
+    liked = False
+    if product.likes.filter(aadharno=merchantid).exists():
+        product.likes.remove(merchantid)
+        liked = False
+    else:
+        product.likes.add(merchantid)
+        like = True
+    return HttpResponse('Liked')# return redirect(reverse('merchantapp:viewProd',id=id))
