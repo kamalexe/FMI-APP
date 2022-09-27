@@ -5,16 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f16768b-6d8e-4b4c-ac30-84a84f6ecc2c" name="Changes" comment="Add sold List in Farmer App &#10;Add purchase list on Merchant App">
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/irrigreatappurls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/templates/blogbase.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/templates/bloghome.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/templates/sm_login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/templates/sm_reg.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/farmerapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/farmerapp/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/merchantappurls.py" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/merchantappurls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/templates/merchantbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/merchantbase.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/templates/merchanthome.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/merchanthome.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/templates/placeorder.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/placeorder.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/templates/purchasedprod.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/purchasedprod.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/templates/viewprod.html" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/templates/viewprod.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merchantapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/merchantapp/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fmiproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/fmiproject/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fmiproject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/fmiproject/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +30,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Python Script" />
         <option value="HTML File" />
       </list>
     </option>
@@ -57,10 +64,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/farmerapp/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/irrigreatapp/templates" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Lenovo\Desktop\fmiprojectfinalmy\FMI-APP\irrigreatapp\templates" />
       <recent name="C:\Users\Lenovo\Desktop\fmiprojectfinalmy\FMI-APP\farmerapp\templates" />
       <recent name="C:\Users\Lenovo\Desktop\fmiprojectfinalmy\fmiproject\merchantapp" />
       <recent name="C:\Users\Lenovo\Desktop\fmiprojectfinalmy\fmiproject" />

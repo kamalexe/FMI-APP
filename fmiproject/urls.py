@@ -23,4 +23,5 @@ urlpatterns = [
     path('employee/', include(('employee.employeeurl', 'employee'), namespace='employee')),
     path('farmerapp/', include(('farmerapp.farmerappurls', 'farmerapp'), namespace='farmerapp')),
     path('merchantapp/', include(('merchantapp.merchantappurls', 'merchantapp'), namespace='merchantapp')),
+    path('irrigreatapp/', include(('irrigreatapp.irrigreatappurls', 'irrigreatapp'), namespace='irrigreatapp')),
 ]

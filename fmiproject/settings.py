@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'employee',
     'farmerapp',
     'merchantapp',
+    'irrigreatapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
