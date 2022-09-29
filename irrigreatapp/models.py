@@ -9,10 +9,11 @@ class SmUser(models.Model):
     password = models.CharField(max_length=20)
     bdate = models.DateTimeField(max_length=20)
     gender = models.CharField(max_length=20)
-    creatDate = models.DateTimeField(default=datetime.now(), blank=True)
-    updateDate = models.DateTimeField(default=datetime.now(), blank=True)
+    creatDate = models.DateTimeField( blank=True)
+    updateDate = models.DateTimeField( blank=True)
 
 class SmUserProfile(models.Model):
+    id = models.CharField(max_length=20, primary_key=True)
     user_id = models.CharField(max_length=20)
     fname = models.CharField(max_length=20 ,default='Ferb')
     lname = models.CharField(max_length=20,default='Fletcher')
@@ -23,5 +24,10 @@ class SmUserProfile(models.Model):
     city = models.CharField(max_length=20,blank=True)
     userType = models.CharField(max_length=20 ,blank=True)
     about = models.TextField(blank=True)
-    creatDate = models.DateTimeField(default=datetime.now(), blank=True)
-    updateDate = models.DateTimeField(default=datetime.now(), blank=True)
+    image = models.ImageField(upload_to = 'irrigreatapp/images',default='irrigreatapp/images/defaultimg.png')
+    follow = models.ManyToManyField(SmUser, related_name='follower')
+    creatDate = models.DateTimeField( blank=True)
+    updateDate = models.DateTimeField( blank=True)
+
+    def total_follow(self):
+        return self.follow.count()

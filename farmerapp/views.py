@@ -73,15 +73,7 @@ def changepwd(request):
     print(confirmpassword)
     print('*********')
     try:
-        print('Try First')
         obj = FarmerInfo.objects.get(userid=farmer, password=oldpassword)
-        print('Try Second')
-        # print(obj.userid)
-        # print(farmer)
-        # print(obj.password)
-        # obj.password = newpassword
-        # obj.save()
-# Not working obj.save() and filter -- Cannot resolve keyword
         obj = get_object_or_404(Profile, username=username)
         print(fil)
         print('Try Third')
@@ -93,6 +85,7 @@ def changepwd(request):
 
 
 def prodlist(request):
+
     farmerName = FarmerInfo.objects.get(userid=request.session['farmer'])
     products = FarmerSellProduct.objects.filter(farmerName=farmerName)
     context = {'products': products, 'farmerName': farmerName}
@@ -162,4 +155,14 @@ def currentprice(request):
     print('**************')
 
     context = {}
+    return render(request, "currentprice.html", context)
+
+
+def socialpage(request):
+    try:
+        if request.session['farmer']:
+            request.session['smUser'] = request.session['farmer']
+            return redirect(reverse('irrigreatapp:bloghome'))
+    except Exception as e:
+        print(e)
     return render(request, "currentprice.html", context)

@@ -6,13 +6,16 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 def merchanthome(request):
-    if not request.session['merchant']:
+    try:
+        if not request.session['merchant']:
+            return render(request, 'login.html')
+        if request.session['merchant']:
+            merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
+            allProduct = FarmerSellProduct.objects.all()
+            context = {'merchantName':merchantName,'allProduct':allProduct}
+        return render(request,'merchanthome.html',context )
+    except:
         return render(request, 'login.html')
-    if request.session['merchant']:
-        merchantName = MerchantInfo.objects.get(userid=request.session['merchant'])
-        allProduct = FarmerSellProduct.objects.all()
-        context = {'merchantName':merchantName,'allProduct':allProduct}
-    return render(request,'merchanthome.html',context )
 
 def logout(request):
     request.session['merchant'] = None
@@ -136,4 +139,6 @@ def LikeView(request,id):
     else:
         product.likes.add(merchantid)
         like = True
-    return HttpResponse('Liked')# return redirect(reverse('merchantapp:viewProd',id=id))
+    # return HttpResponse('Liked')
+    # return redirect(reverse(,id=id))
+    return redirect(f'/merchantapp/viewProd/{id}')

@@ -12,4 +12,5 @@ urlpatterns = [
     path('currentprice', views.currentprice, name='currentprice'),
     path('changepasword/', views.changepasword, name='changepasword'),
     path('changepwd/', views.changepwd, name='changepwd'),
+    path('socialpage/', views.socialpage, name='socialpage'),
 ]

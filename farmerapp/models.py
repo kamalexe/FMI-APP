@@ -16,7 +16,7 @@ class FarmerSellProduct(models.Model):
 
     def total_likes(self):
         return self.likes.count()
-    # profile = models.ForeignKey(Profile,on_delete = models.CASCADE, default="")
+        
     def __str__(self):
         return self.productName
 
