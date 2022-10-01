@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse,redirect, reverse
 from fmiapp.models import FarmerInfo,MerchantInfo
 from django.http import HttpResponseRedirect
 import random
-from .models import SmUser,SmUserProfile
+from .models import SmUser,SmUserProfile,Post
 from datetime import datetime
 # Create your views here.
 
@@ -15,7 +15,9 @@ def bloghome(request):
             userid = SmUser.objects.get(email=request.session['smUser'])
             username = SmUserProfile.objects.get(email=request.session['smUser'])
         allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
-        context = {'userid':userid,'username': username,'allSmUser':allSmUser}
+        post = Post.objects.filter(user_id = username.id)
+        path = request.path_info
+        context = {'userid':userid,'username': username,'allSmUser':allSmUser,'post':post,'path':path}
         # return render(request, 'bloghome.html', context)
         return render(request, 'bloghome.html',context)
     except Exception as e:
@@ -64,11 +66,6 @@ def smLogin(request):
         password = request.POST.get('password')
         sm_user = SmUser.objects.get(email = email,password=password)
         request.session['smUser'] = email
-        print("$$$$$$$$$$")
-        print(request.session['smUser'])
-        print("$$$$$$$$$$")
-        print(sm_user)
-        print(password)
         return redirect(reverse('irrigreatapp:bloghome'))
     except:
         return redirect(reverse('irrigreatapp:smRegView'))
@@ -105,19 +102,57 @@ def friendprofile(request ,id):
     username = SmUserProfile.objects.get(user_id = sm_userobj.id)
     
     allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
-    print(username.fname)
-    context = {'username':username,'allSmUser':allSmUser}
+    post = Post.objects.filter(user_id=username.id)
+    path = request.path_info
+    context = {'username':username,'allSmUser':allSmUser,'post':post,'path':path}
     return render(request, 'othersProfile.html',context)
 
 
 def follow(request,id):
-    # sm_userobj = SmUser.objects.get(id = id)
+    follower = SmUser.objects.get(email=request.session['smUser'])
     username = SmUserProfile.objects.get(id=id)
-    if username.follow.filter(id=username.id).exists():
-        username.follow.remove(username.id)
+
+    if username.follow.filter(id=follower.id).exists():
+        username.follow.remove(follower.id)
         follow = False
     else:
-        username.follow.add(username.id)
+        username.follow.add(follower.id)
         follow = True
     return redirect(f'/irrigreatapp/friendprofile/{id}')
-    return HttpResponse('followed')
+
+def createPost(request,id):
+    caption = request.POST.get('postcaption')
+    user_id = request.POST.get('userid')
+
+    image = request.FILES.get('postimg')
+    creatDate = datetime.now()
+    updateDate = datetime.now()
+    print(caption)
+    print(user_id)
+    print(image)
+    post = Post.objects.create(caption=caption,user_id=user_id,image=image,creatDate=creatDate,updateDate=updateDate)
+    # post = Post(caption=caption,user_id=user_id,image=image,creatDate=creatDate,updateDate=updateDate)
+    # post.save()
+    return redirect(f'/irrigreatapp/')
+    # return HttpResponse('Posted')
+
+def likepost(request,id):
+    print('**************')
+    print(request.path_info)
+    print('**************')
+    follower = SmUser.objects.get(email=request.session['smUser'])
+    path = request.POST.get('path')
+    username = Post.objects.get(id=id)
+
+    if username.likes.filter(id=follower.id).exists():
+        username.likes.remove(follower.id)
+        likes = False
+    else:
+        username.likes.add(follower.id)
+        likes = True
+    return HttpResponseRedirect(path)
+
+def deletePost(request,id):
+    post = Post.objects.filter(id = id)
+    post.delete()
+    return redirect(reverse('irrigreatapp:bloghome'))

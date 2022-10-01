@@ -31,3 +31,15 @@ class SmUserProfile(models.Model):
 
     def total_follow(self):
         return self.follow.count()
+
+
+
+class Post(models.Model):
+    user_id = models.CharField(max_length=20)
+    caption = models.TextField()
+    image = models.ImageField(upload_to = 'irrigreatapp/images',blank=True)
+    likes = models.ManyToManyField(SmUser, related_name='likes')
+    creatDate = models.DateTimeField( blank=True)
+    updateDate = models.DateTimeField( blank=True)
+    def total_like(self):
+        return self.likes.count()

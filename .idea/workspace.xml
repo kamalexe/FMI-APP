@@ -5,21 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f16768b-6d8e-4b4c-ac30-84a84f6ecc2c" name="Changes" comment="Add sold List in Farmer App &#10;Add purchase list on Merchant App">
-      <change afterPath="$PROJECT_DIR$/irrigreatapp/static/css/bootstrap.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/irrigreatapp/static/css/feature.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/irrigreatapp/static/images/slider_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/irrigreatapp/static/images/slider_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/irrigreatapp/static/images/slider_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/irrigreatapp/static/images/slider_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/irrigreatapp/static/images/slider_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/irrigreatapp/static/js/bootstrap.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/irrigreatapp/templates/showPost.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fmiproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/fmiproject/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fmiproject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/fmiproject/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/irrigreatapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/irrigreatapp/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/irrigreatapp/irrigreatappurls.py" beforeDir="false" afterPath="$PROJECT_DIR$/irrigreatapp/irrigreatappurls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/irrigreatapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/irrigreatapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/irrigreatapp/templates/blogbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/irrigreatapp/templates/blogbase.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/irrigreatapp/templates/bloghome.html" beforeDir="false" afterPath="$PROJECT_DIR$/irrigreatapp/templates/bloghome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/irrigreatapp/templates/othersProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/irrigreatapp/templates/othersProfile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/irrigreatapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/irrigreatapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
