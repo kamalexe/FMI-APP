@@ -92,15 +92,13 @@ endblock address %}-->
                                                             <input readonly hidden type="text"
                                                                    class="form-control input-sm"
                                                                    value="{{username.id}}" name="profileId">
-                                                            <input readonly type="text" class="form-control input-sm"
-                                                                   value="{{userid.id}}" name="userid"
-                                                            >
+                                                            <input readonly type="text" class="form-control input-sm" value="{{userid.id}}" name="userid" autocomplete="username">>
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-12">
                                                         <label>Password:</label>
                                                         <input type="password" class="form-control input-sm"
-                                                               name="password" placeholder="Password" readonly>
+                                                               name="password" placeholder="Password" readonly autocomplete="current-password">>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
@@ -369,26 +367,10 @@ endblock address %}-->
                     <div class="card rounded">
                         <div class="card-body">
                             <h6 class="card-title">latest photos</h6>
-                            <div class="latest-photos">
-                                <div class="row">
-                                    {%for p in post%}
-                                    {%if p.image%}
-                                    <div class="col-md-4 border" style="height:4rem; ">
-                                        <figure>
-                                            <img style="width:100%" class="img-fluid"
-                                                 src="http://127.0.0.1:8000/media/{{p.image}}" alt="">
-                                        </figure>
-                                    </div>
-
-
-                                    {% endif %}
-
-
-                                    {% endfor %}
-                                </div>
-                            </div>
+                             {% include 'latestPhoto.html' %}
                         </div>
                     </div>
+
                 </div>
                 <div class="col-md-12 grid-margin">
                     <div class="card rounded">
@@ -411,8 +393,7 @@ endblock address %}-->
                                         {% csrf_token %}
                                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                             <button type='submit' name='{{user.id}}' value='{{user.id}}'
-                                                    class="btn btn-sm btn-primary btn-sm w-100">Follow<i
-                                                    class="{{likesymb}}"></i></button>
+                                                    class="btn btn-sm btn-primary btn-sm w-100">Follow<i class=""></i></button>
                                         </div>
                                     </form>
                                 </div>
@@ -433,8 +414,7 @@ endblock address %}-->
                                         {% csrf_token %}
                                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                             <button type='submit' name='{{user.id}}' value='{{user.id}}'
-                                                    class="btn btn-sm btn-primary btn-sm w-100">Follow<i
-                                                    class="{{likesymb}}"></i></button>
+                                                    class="btn btn-sm btn-primary btn-sm w-100">Follow</button>
                                         </div>
                                     </form>
                                 </div>

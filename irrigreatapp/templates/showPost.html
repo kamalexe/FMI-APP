@@ -78,15 +78,17 @@
     </div>
     <div class="card-footer">
         <div class="d-flex post-actions">
-            <form action='/irrigreatapp/like/{{p.id}}' method='POST'>
+<!--            Like Button-->
+            <form id="post-Like{{p.id}}">
                 {% csrf_token %}
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <input hidden readonly type="text" value="{{path}}" name="path">
-                    <button type='submit' name='{{p.id}}' value='{{p.id}}'
+                    <input hidden readonly type="text" value="{{path}}" class="path" name="path">
+                    <button type='submit' name='{{p.id}}' id='{{p.id}}' value='{{p.id}}'
                             class="d-flex align-items-center text-muted mr-4"><p class="d-none d-md-block ml-2">
-                        {{p.total_like}} Like</p></button>
+                        {{p.total_like}} <span id="{{p.id}}span"></span> Like</p></button>
                 </div>
             </form>
+
             <a href="javascript:;" class="d-flex align-items-center text-muted mr-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -110,3 +112,21 @@
         </div>
     </div>
 </div>
+    <script type="text/javascript">
+        $(document).on('submit','#post-Like{{p.id}}',function(e){
+                e.preventDefault();
+                console.log('Liked{{p.id}}')
+                $.ajax({
+                    type:'POST',
+                    url:'/irrigreatapp/like/{{p.id}}',
+                    data:{
+                        path:$('.path').val(),
+                        {{p.id}}:$('#{{p.id}}').val(),
+                        csrfmiddlewaretoken:$('input[name= csrfmiddlewaretoken]').val(),
+                    },
+                    success:function(data){
+                        $('#{{p.id}}span').html(data);
+                    }
+                })
+        })
+    </script>

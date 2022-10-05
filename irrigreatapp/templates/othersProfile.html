@@ -25,12 +25,12 @@
                             <!-- Trigger the modal with a button -->
                             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                 <form action='follow/{{username.id}}' method='POST'>
-                                    {% csrf_token %} 
-                                   
+                                    {% csrf_token %}
+
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <button type='submit' name='{{username.id}}' value='{{username.id}}' class="btn btn-sm btn-primary btn-sm">Follow<i class="{{likesymb}}" ></i></button>
                                     </div>
-                                </form> 
+                                </form>
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                       See
@@ -38,13 +38,13 @@
                                     <ul class="dropdown-menu">
                                         {% for follow in username.follow.all %}
 
-                                        <li><a class="dropdown-item" href="friendprofile/{{follow.id}}">{{follow.fname}}</a></li>
+                                        <li><a class="dropdown-item" href="/irrigreatapp/friendprofile/{{follow.id}}">{{follow.fname}}</a></li>
                                         {% endfor %}
                                     </ul>
                                   </div>
                               </div>
-                          
-                    
+
+
                             <script>
                                 const toastTrigger = document.getElementById('liveToastBtn')
                                 const toastLiveExample = document.getElementById('liveToast')
@@ -249,64 +249,7 @@
                     <div class="card rounded">
                         <div class="card-body">
                             <h6 class="card-title">latest photos</h6>
-                            <div class="latest-photos">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <figure>
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <figure>
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <figure>
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <figure>
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <figure>
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <figure>
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <figure class="mb-0">
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <figure class="mb-0">
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar8.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <figure class="mb-0">
-                                            <img class="img-fluid"
-                                                 src="https://bootdey.com/img/Content/avatar/avatar9.png" alt="">
-                                        </figure>
-                                    </div>
-                                </div>
-                            </div>
+                             {% include 'latestPhoto.html' %}
                         </div>
                     </div>
                 </div>
@@ -329,15 +272,15 @@
 
                             <form action='follow/{{user.id}}' method='POST'>
                                 {% csrf_token %}
-                                
-                               
+
+
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                     <button type='submit' name='{{user.id}}' value='{{user.id}}' class="btn btn-sm btn-primary btn-sm w-100">Follow<i class="{{likesymb}}" ></i></button>
                                   </div>
-                            </form>  
+                            </form>
 
                                 <a class="btn btn-icon" href="#">
-                                    
+
                                 </a>
                             </div>
                             {% endfor %}

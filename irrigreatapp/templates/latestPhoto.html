@@ -1,0 +1,18 @@
+<div class="latest-photos">
+    <div class="row">
+        {%for p in post%}
+        {%if p.image%}
+        <div class="col-md-4 border" style="height: auto; ">
+            <figure>
+                <img style=" width: 200px;
+  height: 100px;
+  object-fit: cover;" class="img-fluid"
+                     src="http://127.0.0.1:8000/media/{{p.image}}" alt="">
+            </figure>
+        </div>
+
+
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>

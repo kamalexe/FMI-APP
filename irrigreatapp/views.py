@@ -7,7 +7,7 @@ from datetime import datetime
 # Create your views here.
 
 def bloghome(request):
-    print('blogHome')
+
     global username
     try:
         print(request.session['smUser'])
@@ -98,14 +98,25 @@ def smLogout(request):
     return render(request, 'sm_login.html')
 
 def friendprofile(request ,id):
-    sm_userobj = SmUserProfile.objects.get(id = id)
-    username = SmUserProfile.objects.get(user_id = sm_userobj.id)
-    
-    allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
-    post = Post.objects.filter(user_id=username.id)
-    path = request.path_info
-    context = {'username':username,'allSmUser':allSmUser,'post':post,'path':path}
-    return render(request, 'othersProfile.html',context)
+    try:
+        follower = SmUser.objects.get(email=request.session['smUser'])
+        sm_userobj = SmUserProfile.objects.get(id = id)
+        print(sm_userobj)
+        username = SmUserProfile.objects.get(user_id = sm_userobj.id)
+        if username.follow.filter(id=follower.id).exists():
+            # follow = False
+            followbtn = 'Follow'
+        else:
+            username.follow.add(follower.id)
+            # follow = True
+            followbtn = 'Unfollow'
+        allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
+        post = Post.objects.filter(user_id=username.id)
+        path = request.path_info
+        context = {'username':username,'allSmUser':allSmUser,'post':post,'path':path,'followbtn':followbtn}
+        return render(request, 'othersProfile.html',context)
+    except:
+        return redirect(reverse('irrigreatapp:bloghome'))
 
 
 def follow(request,id):
@@ -127,19 +138,11 @@ def createPost(request,id):
     image = request.FILES.get('postimg')
     creatDate = datetime.now()
     updateDate = datetime.now()
-    print(caption)
-    print(user_id)
-    print(image)
     post = Post.objects.create(caption=caption,user_id=user_id,image=image,creatDate=creatDate,updateDate=updateDate)
-    # post = Post(caption=caption,user_id=user_id,image=image,creatDate=creatDate,updateDate=updateDate)
-    # post.save()
     return redirect(f'/irrigreatapp/')
-    # return HttpResponse('Posted')
+
 
 def likepost(request,id):
-    print('**************')
-    print(request.path_info)
-    print('**************')
     follower = SmUser.objects.get(email=request.session['smUser'])
     path = request.POST.get('path')
     username = Post.objects.get(id=id)
@@ -150,7 +153,14 @@ def likepost(request,id):
     else:
         username.likes.add(follower.id)
         likes = True
-    return HttpResponseRedirect(path)
+    print(username.likes)
+    post = Post.objects.filter(id = id)[0].total_like
+    # post = Post.total_like
+    print('#########')
+    print(post)
+    print('#########')
+    return HttpResponse(post)
+    # return HttpResponseRedirect(path)
 
 def deletePost(request,id):
     post = Post.objects.filter(id = id)
