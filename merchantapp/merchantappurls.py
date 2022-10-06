@@ -9,5 +9,6 @@ urlpatterns = [
     path('purchasedprod', views.purchasedprod, name='purchasedprod'),
     path('logout', views.logout, name='logout'),
     path('trackOrder', views.trackOrder, name='trackOrder'),
-path('viewProd/like_post/<str:id>', views.LikeView, name='LikeView'),
+    path('viewProd/like_post/<str:id>', views.LikeView, name='LikeView'),
+    path('socialpage/', views.socialpage, name='socialpage'),
 ]

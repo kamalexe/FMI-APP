@@ -2,23 +2,32 @@ from django.shortcuts import render,HttpResponse,redirect, reverse
 from fmiapp.models import FarmerInfo,MerchantInfo
 from django.http import HttpResponseRedirect
 import random
-from .models import SmUser,SmUserProfile,Post
+from .models import SmUser,SmUserProfile,Post,Comment
 from datetime import datetime
 # Create your views here.
 
 def bloghome(request):
 
-    global username
+    global username, userid, logeduser
     try:
         print(request.session['smUser'])
         if request.session['smUser']:
             userid = SmUser.objects.get(email=request.session['smUser'])
             username = SmUserProfile.objects.get(email=request.session['smUser'])
+            logeduser=username
         allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
         post = Post.objects.filter(user_id = username.id)
+        print('*************')
+        print(post)
+        print('*************')
+        comment = Comment.objects.filter(parent=None)
+        print('##########')
+        print(comment.first())
+        # for comment in comment:
+        #     print(comment.id)
+        print('##########')
         path = request.path_info
-        context = {'userid':userid,'username': username,'allSmUser':allSmUser,'post':post,'path':path}
-        # return render(request, 'bloghome.html', context)
+        context = {'userid':userid,'username': username,'allSmUser':allSmUser,'post':post,'path':path,'logeduser':logeduser,'comment':comment}
         return render(request, 'bloghome.html',context)
     except Exception as e:
         print(e)
@@ -28,34 +37,37 @@ def smRegView(request):
     return render(request, 'sm_reg.html')
 
 def smReg(request):
-    print(request.method)
-    fname = request.POST.get('fname')
-    lname = request.POST.get('lname')
-    email = request.POST.get('email')
-    password = request.POST.get('password')
-    bdate = request.POST.get('bdate')
-    gender = request.POST.get('gender')
-    updateDate = datetime.now()
-    creatDate = datetime.now()
-    sm_user = SmUser(fname=fname,lname=lname,email=email,password=password,bdate=bdate,gender=gender,updateDate=updateDate,creatDate=creatDate)
-    sm_user.save()
+    try:
+        print(request.method)
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        bdate = request.POST.get('bdate')
+        gender = request.POST.get('gender')
+        updateDate = datetime.now()
+        creatDate = datetime.now()
+        sm_user = SmUser(fname=fname,lname=lname,email=email,password=password,bdate=bdate,gender=gender,updateDate=updateDate,creatDate=creatDate)
+        sm_user.save()
 
-    username = SmUser.objects.get(email = email,password=password)
-    id = username.id
-    user_id = username.id
-    # user_id = request.POST.get('user_id')
-    fname = fname
-    lname = lname
-    email = email
-    password = password
-    bdate = bdate
-    gender = gender
-    updateDate = datetime.now()
-    creatDate = datetime.now()
-    SmUserProfileObj = SmUserProfile(id=id,user_id=user_id,fname=fname,lname=lname, email= email,password=password, bdate= bdate,gender=gender,updateDate=updateDate,creatDate=creatDate)
-    SmUserProfileObj.save()
-    # return HttpResponse('reg')
-    return render(request, 'sm_login.html')
+        username = SmUser.objects.get(email = email,password=password)
+        id = username.id
+        user_id = username.id
+        # user_id = request.POST.get('user_id')
+        fname = fname
+        lname = lname
+        email = email
+        password = password
+        bdate = bdate
+        gender = gender
+        updateDate = datetime.now()
+        creatDate = datetime.now()
+        SmUserProfileObj = SmUserProfile(id=id,user_id=user_id,fname=fname,lname=lname, email= email,password=password, bdate= bdate,gender=gender,updateDate=updateDate,creatDate=creatDate)
+        SmUserProfileObj.save()
+        # return HttpResponse('reg')
+        return render(request, 'sm_login.html')
+    except:
+        return render(request, 'sm_reg.html')
 
 def smLoginView(request):
     return render(request, 'sm_login.html')
@@ -101,6 +113,7 @@ def friendprofile(request ,id):
     try:
         follower = SmUser.objects.get(email=request.session['smUser'])
         sm_userobj = SmUserProfile.objects.get(id = id)
+        logeduser =SmUserProfile.objects.get(email=request.session['smUser'])
         print(sm_userobj)
         username = SmUserProfile.objects.get(user_id = sm_userobj.id)
         if username.follow.filter(id=follower.id).exists():
@@ -113,7 +126,7 @@ def friendprofile(request ,id):
         allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
         post = Post.objects.filter(user_id=username.id)
         path = request.path_info
-        context = {'username':username,'allSmUser':allSmUser,'post':post,'path':path,'followbtn':followbtn}
+        context = {'username':username,'allSmUser':allSmUser,'post':post,'path':path,'followbtn':followbtn,'logeduser':logeduser}
         return render(request, 'othersProfile.html',context)
     except:
         return redirect(reverse('irrigreatapp:bloghome'))
@@ -132,9 +145,9 @@ def follow(request,id):
     return redirect(f'/irrigreatapp/friendprofile/{id}')
 
 def createPost(request,id):
+
     caption = request.POST.get('postcaption')
     user_id = request.POST.get('userid')
-
     image = request.FILES.get('postimg')
     creatDate = datetime.now()
     updateDate = datetime.now()
@@ -166,3 +179,24 @@ def deletePost(request,id):
     post = Post.objects.filter(id = id)
     post.delete()
     return redirect(reverse('irrigreatapp:bloghome'))
+
+
+def postComment(request):
+    if request.method == "POST":
+        post_id = request.POST.get('post_id')
+        post = Post.objects.get(id=post_id)
+        blogger_id = request.POST.get('blogger_id')
+        blogger = SmUserProfile.objects.get(id=blogger_id)
+        commenter_id = request.POST.get('commenter_id')
+        commenter = SmUserProfile.objects.get(id=commenter_id)
+        body = request.POST.get('comment_body')
+        updateDate = datetime.now()
+        parent_sno = request.POST.get('comment_id')
+        if parent_sno=="":
+            comment = Comment(post=post, blogger_id=blogger, commenter_id=commenter, body=body, updateDate=updateDate)
+            comment.save()
+        else:
+            parent = Comment.objects.get(id=parent_sno)
+            comment = Comment(post=post,blogger_id=blogger,commenter_id=commenter,body=body,updateDate=updateDate,parent=parent)
+            comment.save()
+    return HttpResponse('Commented')

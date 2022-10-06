@@ -165,4 +165,4 @@ def socialpage(request):
             return redirect(reverse('irrigreatapp:bloghome'))
     except Exception as e:
         print(e)
-    return render(request, "currentprice.html", context)
+    return redirect(reverse('irrigreatapp:bloghome'))

@@ -15,6 +15,12 @@ endblock address %}-->
     .tx-14{
         font-size:1.5rem;
     }
+    img.profile-pic {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
+
 </style>
 
 <div class="profile-page tx-13">
@@ -92,13 +98,16 @@ endblock address %}-->
                                                             <input readonly hidden type="text"
                                                                    class="form-control input-sm"
                                                                    value="{{username.id}}" name="profileId">
-                                                            <input readonly type="text" class="form-control input-sm" value="{{userid.id}}" name="userid" autocomplete="username">>
+                                                            <input readonly type="text" class="form-control input-sm"
+                                                                   value="{{userid.id}}" name="userid"
+                                                                   autocomplete="username">>
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-12">
                                                         <label>Password:</label>
                                                         <input type="password" class="form-control input-sm"
-                                                               name="password" placeholder="Password" readonly autocomplete="current-password">>
+                                                               name="password" placeholder="Password" readonly
+                                                               autocomplete="current-password">>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
@@ -162,6 +171,7 @@ endblock address %}-->
                                     $("#myModal").modal("toggle");
 
                                 })
+
 
 
 
@@ -367,7 +377,7 @@ endblock address %}-->
                     <div class="card rounded">
                         <div class="card-body">
                             <h6 class="card-title">latest photos</h6>
-                             {% include 'latestPhoto.html' %}
+                            {% include 'latestPhoto.html' %}
                         </div>
                     </div>
 
@@ -377,48 +387,50 @@ endblock address %}-->
                         <div class="card-body">
                             <h6 class="card-title">Suggestions for you</h6>
                             {% for user in allSmUser %}
-                                <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                    <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs rounded-circle"
-                                                 src="http://127.0.0.1:8000/media/{{user.image}}" alt="">
-                                            <div class="ms-2">
-                                                <p class="mb-0">{{ user.fname }} {{ user.lname }}</p>
-                                                <p class="text-muted mb-0" style="font-size: 11px;">{{user.total_follow}}
-                                                    Follower</p>
-                                            </div>
+                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                    <div class="d-flex align-items-center hover-pointer">
+                                        <img class="img-xs rounded-circle"
+                                             src="http://127.0.0.1:8000/media/{{user.image}}" alt="">
+                                        <div class="ms-2">
+                                            <p class="mb-0">{{ user.fname }} {{ user.lname }}</p>
+                                            <p class="text-muted mb-0" style="font-size: 11px;">{{user.total_follow}}
+                                                Follower</p>
                                         </div>
-                                    </a>
-                                    <form action='friendprofile/follow/{{user.id}}' method='POST'>
-                                        {% csrf_token %}
-                                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                            <button type='submit' name='{{user.id}}' value='{{user.id}}'
-                                                    class="btn btn-sm btn-primary btn-sm w-100">Follow<i class=""></i></button>
+                                    </div>
+                                </a>
+                                <form action='friendprofile/follow/{{user.id}}' method='POST'>
+                                    {% csrf_token %}
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                        <button type='submit' name='{{user.id}}' value='{{user.id}}'
+                                                class="btn btn-sm btn-primary btn-sm w-100">Follow<i class=""></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            {% if forloop.last or friendlist.count == 1 %}
+                            <div class="d-flex justify-content-between mb-2 pb-2">
+                                <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                    <div class="d-flex align-items-center hover-pointer">
+                                        <img class="img-xs rounded-circle"
+                                             src="http://127.0.0.1:8000/media/{{user.image}}" alt="">
+                                        <div class="ms-2">
+                                            <p class="mb-0">{{ user.fname }} {{ user.lname }}</p>
+                                            <p class="text-muted mb-0" style="font-size: 11px;">{{user.total_follow}}
+                                                Follower</p>
                                         </div>
-                                    </form>
-                                </div>
-                                {% if forloop.last or friendlist.count == 1 %}
-                                    <div class="d-flex justify-content-between mb-2 pb-2">
-                                    <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs rounded-circle"
-                                                 src="http://127.0.0.1:8000/media/{{user.image}}" alt="">
-                                            <div class="ms-2">
-                                                <p class="mb-0">{{ user.fname }} {{ user.lname }}</p>
-                                                <p class="text-muted mb-0" style="font-size: 11px;">{{user.total_follow}}
-                                                    Follower</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <form action='friendprofile/follow/{{user.id}}' method='POST'>
-                                        {% csrf_token %}
-                                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                            <button type='submit' name='{{user.id}}' value='{{user.id}}'
-                                                    class="btn btn-sm btn-primary btn-sm w-100">Follow</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                {% endif %}
+                                    </div>
+                                </a>
+                                <form action='friendprofile/follow/{{user.id}}' method='POST'>
+                                    {% csrf_token %}
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                        <button type='submit' name='{{user.id}}' value='{{user.id}}'
+                                                class="btn btn-sm btn-primary btn-sm w-100">Follow
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            {% endif %}
                             {% endfor %}
                         </div>
                     </div>

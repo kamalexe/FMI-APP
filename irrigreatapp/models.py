@@ -43,3 +43,18 @@ class Post(models.Model):
     updateDate = models.DateTimeField( blank=True)
     def total_like(self):
         return self.likes.count()
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name="comments" ,on_delete= models.CASCADE)
+    blogger_id = models.ForeignKey(SmUserProfile, related_name="bloggers" ,on_delete= models.CASCADE)
+    commenter_id = models.ForeignKey(SmUserProfile, related_name="commenters" ,on_delete= models.CASCADE)
+    parent = models.ForeignKey('self' ,related_name="parents", on_delete= models.CASCADE,null=True)
+    body = models.TextField()
+    creatDate = models.DateTimeField(blank=True, auto_now_add = True)
+    updateDate = models.DateTimeField(blank=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.post.caption,self.commenter_id)
+
+    def total_comment(self):
+        return self.body.count()

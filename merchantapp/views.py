@@ -142,3 +142,12 @@ def LikeView(request,id):
     # return HttpResponse('Liked')
     # return redirect(reverse(,id=id))
     return redirect(f'/merchantapp/viewProd/{id}')
+
+def socialpage(request):
+    try:
+        if request.session['merchant']:
+            request.session['smUser'] = request.session['merchant']
+            return redirect(reverse('irrigreatapp:bloghome'))
+    except Exception as e:
+        print(e)
+    return redirect(reverse('irrigreatapp:bloghome'))

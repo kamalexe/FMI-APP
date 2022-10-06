@@ -123,3 +123,6 @@ def saveenq(request):
     se.save()
     msg = 'Your enquiry is submitted! '
     return render(request, 'contact.html', {'msg': msg})
+
+def socialpage(request):
+    return redirect(reverse('irrigreatapp:bloghome'))

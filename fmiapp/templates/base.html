@@ -46,6 +46,7 @@ color:white ;
     height: 100%;
 }
 
+
     </style>
 </head>
 <body>
@@ -75,8 +76,8 @@ color:white ;
                                 class="fa-solid fa-house"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'contact' %}"><i
-                                class="fa-solid fa-house"></i> Contact</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'contact' %}">
+                            <i class="fa-solid fa-address-book"></i> Contact</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}"><i class="fa-solid fa-address-card"></i>
@@ -92,7 +93,11 @@ color:white ;
                             <li><a class="dropdown-item" href="{% url 'merchentreg' %}">Merchant</a></li>
                         </ul>
                     </li>
-
+                    <!-- Social Page -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'socialpage' %}">
+                            <i class="fa-solid fa-hashtag"></i> Irrigreat App</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}"><i class="fa-solid fa-user-plus"></i> Login</a>
@@ -151,11 +156,11 @@ color:white ;
         </div>
     </div>
     <!-- Slider bar ENd -->
-        </section>
+    </section>
 
     <!--Content Section-->
     <div class="row mt-5 ">
-        
+
         <div class="col-sm-12">
             {% block body %}
 
