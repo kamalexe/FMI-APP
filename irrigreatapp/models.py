@@ -7,14 +7,14 @@ class SmUser(models.Model):
     lname = models.CharField(max_length=20)
     email = models.CharField(max_length=20 ,unique=True)
     password = models.CharField(max_length=20)
-    bdate = models.DateTimeField(max_length=20)
+    bdate = models.DateTimeField(blank=True)
     gender = models.CharField(max_length=20)
-    creatDate = models.DateTimeField( blank=True)
-    updateDate = models.DateTimeField( blank=True)
+    creatDate = models.DateTimeField(blank=True)
+    updateDate = models.DateTimeField(blank=True)
 
 class SmUserProfile(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
-    user_id = models.CharField(max_length=20)
+    user_id = models.ForeignKey(SmUser, related_name="smusers" ,on_delete= models.CASCADE)
     fname = models.CharField(max_length=20 ,default='Ferb')
     lname = models.CharField(max_length=20,default='Fletcher')
     email = models.CharField(max_length=20,unique=True)
@@ -35,7 +35,7 @@ class SmUserProfile(models.Model):
 
 
 class Post(models.Model):
-    user_id = models.CharField(max_length=20)
+    user_id = models.ForeignKey(SmUser, related_name="Blogger" ,on_delete= models.CASCADE)
     caption = models.TextField()
     image = models.ImageField(upload_to = 'irrigreatapp/images',blank=True)
     likes = models.ManyToManyField(SmUser, related_name='likes')

@@ -280,7 +280,7 @@
                                                     <input readonly hidden type="text" value="{{comment.id}}"
                                                            name="comment_id">
                                                     <input readonly hidden type="text" value="{{p.id}}" name="post_id">
-                                                    <input readonly hidden type="text" value="{{p.user_id}}" name="blogger_id">
+                                                    <input readonly hidden type="text" value="{{p.user_id.id}}" name="blogger_id">
                                                     <input readonly hidden type="text" value="{{logeduser.id}}" name="commenter_id">
                                                     <textarea class="form-control" placeholder="Post a comment"
                                                               aria-describedby="button-comment-reply"
@@ -309,7 +309,7 @@
                             <div class="input-group input-group-lg mb-3">
                                 <input readonly hidden type="text" value="{{comment.id}}" name="comment_id">
                                 <input readonly hidden type="text" value="{{p.id}}" name="post_id">
-                                <input readonly hidden type="text" value="{{p.user_id}}" name="blogger_id">
+                                <input readonly hidden type="text" value="{{p.user_id.id}}" name="blogger_id">
                                 <input readonly hidden type="text" value="{{ logeduser.id }}" name="commenter_id">
                                 <textarea class="form-control" placeholder="Post a comment"
                                           aria-describedby="button-comment" name="comment_body"></textarea>

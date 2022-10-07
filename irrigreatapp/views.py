@@ -46,13 +46,16 @@ def smReg(request):
         bdate = request.POST.get('bdate')
         gender = request.POST.get('gender')
         updateDate = datetime.now()
+        print('**********')
         creatDate = datetime.now()
         sm_user = SmUser(fname=fname,lname=lname,email=email,password=password,bdate=bdate,gender=gender,updateDate=updateDate,creatDate=creatDate)
+        print(sm_user)
+        print('**********')
         sm_user.save()
 
         username = SmUser.objects.get(email = email,password=password)
         id = username.id
-        user_id = username.id
+        user_id = username
         # user_id = request.POST.get('user_id')
         fname = fname
         lname = lname
@@ -66,7 +69,9 @@ def smReg(request):
         SmUserProfileObj.save()
         # return HttpResponse('reg')
         return render(request, 'sm_login.html')
-    except:
+    except Exception as e:
+        # print(e)
+        # return HttpResponse(e)
         return render(request, 'sm_reg.html')
 
 def smLoginView(request):
@@ -148,6 +153,9 @@ def createPost(request,id):
 
     caption = request.POST.get('postcaption')
     user_id = request.POST.get('userid')
+    username = SmUser.objects.get(id = user_id)
+    user_id = username
+
     image = request.FILES.get('postimg')
     creatDate = datetime.now()
     updateDate = datetime.now()
@@ -186,9 +194,15 @@ def postComment(request):
         post_id = request.POST.get('post_id')
         post = Post.objects.get(id=post_id)
         blogger_id = request.POST.get('blogger_id')
-        blogger = SmUserProfile.objects.get(id=blogger_id)
+        print('##########')
+        print('##########')
+        print(blogger_id)
+        print('##########')
+        username = SmUser.objects.get(id=blogger_id)
+        blogger = SmUserProfile.objects.get(user_id=username)
         commenter_id = request.POST.get('commenter_id')
-        commenter = SmUserProfile.objects.get(id=commenter_id)
+
+        commenter = SmUserProfile.objects.get(email=request.session['smUser'])
         body = request.POST.get('comment_body')
         updateDate = datetime.now()
         parent_sno = request.POST.get('comment_id')
