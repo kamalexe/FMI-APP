@@ -65,6 +65,9 @@ def purchaseCustomerDetail(request):
     if not request.session['merchant']:
         return render(request, 'login.html')
     productid = request.POST['productid']
+    print('productid$$$$$$$$$$$$$$$$$$')
+    print(productid)
+    print('productid$$$$$$$$$$$$$$$$$$')
     soldProduct = FarmerSellProduct.objects.get(id=productid)
     sellerobj = FarmerInfo.objects.get(aadharno=soldProduct.farmerName)
 
@@ -97,7 +100,7 @@ def purchaseCustomerDetail(request):
     print(orderObj[0].id)
     # print(merchantId)
     # print(productid)
-    updateTrack = Tracker(orderId = orderObj[0].id)
+    updateTrack = Tracker(orderId = orderObj[0])
     updateTrack.save()
     # return HttpResponse('purchaseCustomerDetail pass')
     return redirect(reverse('merchantapp:purchasedprod'))

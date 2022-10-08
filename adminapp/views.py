@@ -139,12 +139,13 @@ def paid(request):
     return redirect('adminapp:purchase')
 # First farmenr name in FarmerSellProduct and then show
 def sellingitems(request):
-    soldobj = orderDetail.objects.all()
-    productObj = FarmerSellProduct.objects.all()
-    # print(productObj[0].farmerName)
-    farmerName = FarmerInfo.objects.filter(aadharno = productObj[0].farmerName)[0].name
-    print('-------------------#######_---------')
-    print(farmerName)
+    global productObj, soldobj
+    try:
+        soldobj = orderDetail.objects.all()
+        productObj = FarmerSellProduct.objects.select_related('farmerName').all()
+        farmerName = FarmerInfo.objects.filter(aadharno = productObj[0].farmerName)[0].name
+    except:
+        farmerName = ''
     context = {'soldobj':soldobj,'productObj':productObj,'farmerName':farmerName}
     return render(request,'sellingitems.html',context)
 

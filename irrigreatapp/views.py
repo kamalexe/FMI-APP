@@ -175,7 +175,7 @@ def likepost(request,id):
         username.likes.add(follower.id)
         likes = True
     print(username.likes)
-    post = Post.objects.filter(id = id)[0].total_like
+    post = Post.objects.filter(id = id)[0]
     # post = Post.total_like
     print('#########')
     print(post)

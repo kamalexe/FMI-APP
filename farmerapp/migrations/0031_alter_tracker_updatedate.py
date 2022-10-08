@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('farmerapp', '0029_alter_tracker_updatedate'),
+        ('farmerapp', '0030_alter_tracker_updatedate'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='tracker',
             name='updateDate',
-            field=models.DateTimeField(blank=True, default=datetime.datetime(2022, 10, 7, 18, 44, 15, 310146)),
+            field=models.DateTimeField(blank=True, default=datetime.datetime(2022, 10, 7, 18, 44, 33, 737632)),
         ),
     ]

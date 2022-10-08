@@ -8,7 +8,7 @@ class Profile(models.Model):
     farmerName = models.OneToOneField(FarmerInfo,on_delete = models.CASCADE, default="")
 
 class FarmerSellProduct(models.Model):
-    farmerName = models.ForeignKey(FarmerInfo,on_delete = models.CASCADE , default="")
+    farmerName = models.ForeignKey(FarmerInfo,on_delete = models.CASCADE, related_name="farmers", default="")
     productName = models.CharField(max_length=100, default="")
     qty = models.CharField(max_length=100, default="")
     price = models.CharField(max_length=100, default="")
@@ -21,8 +21,8 @@ class FarmerSellProduct(models.Model):
         return self.productName
 
 class Tracker(models.Model):
-    orderId = models.CharField(max_length=100, default="")
+    orderId = models.ForeignKey(orderDetail,on_delete = models.CASCADE)
     orderStatus = models.CharField(max_length=100, default="Your Order has been placed")
     updateDate = models.DateTimeField(default=datetime.now(), blank=True)
     def __str__(self):
-        return self.orderId
+        return str(self.orderId)

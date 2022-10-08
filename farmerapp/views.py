@@ -108,9 +108,6 @@ def sold(request):
         if request.session['farmer']:
             merchantobj = FarmerInfo.objects.get(userid=request.session['farmer'])
             merchantId = merchantobj.aadharno
-
-            # orderObj = orderDetail.objects.all()
-
             orderObj = orderDetail.objects.filter(farmerId=merchantId)
             print("************")
             print(orderObj[0].qty)
@@ -129,7 +126,8 @@ def updateStatus(request):
         status = request.POST['status']
         updateDate = datetime.now()
         orderObj = orderDetail.objects.filter(id=orderId).update(track_update=status)
-        trackObj = Tracker(orderId=orderId, orderStatus=status)
+        order = orderDetail.objects.get(id=orderId)
+        trackObj = Tracker(orderId=order, orderStatus=status)
         trackObj.save()
     return redirect(reverse('farmerapp:sold'))
 
@@ -143,19 +141,6 @@ def currentprice(request):
     except Exception as e:
         print(e)
     return render(request, 'login.html')
-    city = 'varanasi'
-    # url = 'https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b&format=json&filters=varanasi'
-    # reponse = requests.request('GET', url).json()
-    # records = reponse['records']
-    print('**************')
-    # print(list(reponse).index('records'))
-    # print(list(reponse.keys()))
-    # print(type(reponse))
-    # print(len(reponse))
-    print('**************')
-
-    context = {}
-    return render(request, "currentprice.html", context)
 
 
 def socialpage(request):
