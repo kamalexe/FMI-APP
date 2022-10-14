@@ -111,7 +111,7 @@
             </a>
         </div>
         <!-- Comment Section Start -->
-        <!--                <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">-->
+        <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">-->
         <style>
             /*==================================================
               Post Contents CSS
@@ -228,9 +228,8 @@
             <div class="row">
                 <div class="col-md-12">
                     {% if not p.comments.all %}
-                    <h2 class="text-muted">No Comments</h2>
+                    <h5 class="text-center text-muted">Be First commenter</h5>
                     {% else %}
-
                     <div class="post-content">
                         {% for comment in p.comments.all %}
                         {% if comment.parent == None %}
@@ -341,25 +340,4 @@
                     }
                 })
         })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>

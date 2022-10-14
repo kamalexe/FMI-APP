@@ -149,7 +149,7 @@ body {
 
               <div class="header-links">
                     <ul class="links d-flex align-items-center mt-3 mt-md-0">
-                        <li class="header-link-item border-end d-flex align-items-center active">
+                        <li class="header-link-item border-end d-flex align-items-center active" style="min-width:12rem;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-columns mr-1 icon-md">
@@ -157,7 +157,7 @@ body {
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="#">Timeline</a>
                         </li>
-                        <li class="header-link-item ml-3 pl-3 border-end d-flex align-items-center">
+                        <li class="header-link-item ml-3 pl-3 border-end d-flex align-items-center" style="min-width:12rem;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-user mr-1 icon-md">
@@ -166,7 +166,7 @@ body {
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="{% url 'irrigreatapp:bloghome' %}">Profile</a>
                         </li>
-                        <li class="header-link-item ml-3 pl-3 border-end d-flex align-items-center">
+                        <li class="header-link-item ml-3 pl-3 border-end d-flex align-items-center" style="min-width:12rem;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-users mr-1 icon-md">
@@ -178,7 +178,7 @@ body {
                             <a class="pt-1px d-none d-md-block" href="#">Friends <span
                                     class="text-muted tx-12">{{logeduser.total_follow}}</span></a>
                         </li>
-                        <li class="header-link-item ml-3 pl-3 border-end d-flex align-items-center">
+                        <li class="header-link-item ml-3 pl-3 border-end d-flex align-items-center" style="min-width:12rem;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-image mr-1 icon-md">
@@ -188,7 +188,7 @@ body {
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="#">Photos</a>
                         </li>
-                        <li class="header-link-item ml-3 pl-3 d-flex align-items-center">
+                        <li class="header-link-item ml-3 pl-3 d-flex align-items-center" style="min-width:12rem;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-video mr-1 icon-md">
@@ -199,7 +199,7 @@ body {
                         </li>
                     </ul>
                 </div>
-        <form class="navbar-form form-inline">
+        <form>
             <div class="input-group search-box">
                 <input type="text" id="search" class="form-control" placeholder="Search by Name">
                 <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>

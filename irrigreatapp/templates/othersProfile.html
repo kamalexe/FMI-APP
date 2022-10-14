@@ -237,6 +237,10 @@
                 <div class="col-md-12 grid-margin">
                     {% include 'showPost.html' %}
                 </div>
+                {% empty %}
+                <div class="col-md-12 grid-margin">
+                    <h2 class="text-center text-muted">Their is no Post</h2>
+                </div>
                 {% endfor %}
 
             </div>
@@ -258,7 +262,7 @@
                         <div class="card-body">
                             <h6 class="card-title">Suggestions for you</h6>
                             {% for user in allSmUser %}
-                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                            <div class="d-flex justify-content-between mb-2 pb-2 {% if not forloop.last %} border-bottom {% endif %}">
                                 <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
                                 <div class="d-flex align-items-center hover-pointer">
                                     <img class="img-xs rounded-circle"
@@ -272,8 +276,6 @@
 
                             <form action='follow/{{user.id}}' method='POST'>
                                 {% csrf_token %}
-
-
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                     <button type='submit' name='{{user.id}}' value='{{user.id}}' class="btn btn-sm btn-primary btn-sm w-100">Follow<i class="{{likesymb}}" ></i></button>
                                   </div>
