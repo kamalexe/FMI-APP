@@ -8,10 +8,17 @@ endblock address %}-->
         font-style:bold;
         font-weight: 700;
     }
- .modal-backdrop.show {
-    opacity: 1;
-
+ .show {
+    opacity: -1;
+    }
+    .fade {
+  display: none;
 }
+.modal-backdrop.show {
+    opacity: .5;
+    top: 100vh;
+}
+
     .tx-14{
         font-size:1.5rem;
     }
@@ -20,6 +27,8 @@ endblock address %}-->
     width: 100px;
     object-fit: cover;
 }
+
+
 
 </style>
 
@@ -53,10 +62,7 @@ endblock address %}-->
                                 </svg>
                                 Edit profile
                             </button>
-                            <style>
-
-                            </style>
-                            <div class="container">
+                            <div class="container" style="position:fixed;">
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal" role="dialog">
                                     <div class="modal-dialog">
@@ -100,14 +106,14 @@ endblock address %}-->
                                                                    value="{{username.id}}" name="profileId">
                                                             <input readonly type="text" class="form-control input-sm"
                                                                    value="{{userid.id}}" name="userid"
-                                                                   autocomplete="username">>
+                                                                   autocomplete="username">
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-12">
                                                         <label>Password:</label>
                                                         <input type="password" class="form-control input-sm"
                                                                name="password" placeholder="Password" readonly
-                                                               autocomplete="current-password">>
+                                                               autocomplete="current-password">
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
@@ -171,6 +177,8 @@ endblock address %}-->
                                     $("#myModal").modal("toggle");
 
                                 })
+
+
 
 
 
