@@ -33,6 +33,25 @@ def bloghome(request):
         print(e)
     return render(request, 'sm_login.html')
 
+def timeLine(request):
+
+    global username, userid, logeduser
+    try:
+        print(request.session['smUser'])
+        if request.session['smUser']:
+            userid = SmUser.objects.get(email=request.session['smUser'])
+            username = SmUserProfile.objects.get(email=request.session['smUser'])
+            logeduser=username
+        allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
+        post = Post.objects.all
+        comment = Comment.objects.filter(parent=None)
+        path = request.path_info
+        context = {'userid':userid,'username': username,'allSmUser':allSmUser,'post':post,'path':path,'logeduser':logeduser,'comment':comment}
+        return render(request, 'timeLine.html',context)
+    except Exception as e:
+        print(e)
+    return render(request, 'sm_login.html')
+
 def smRegView(request):
     return render(request, 'sm_reg.html')
 
