@@ -1,14 +1,16 @@
 <div class="latest-photos">
     <div class="row">
-        {%for p in post%}
-        {%if p.image%}
+        {%for p in post|slice:":12"%}
+        {%if p.image %}
         <div class="col-md-4 border" style="height: auto; ">
-            <figure>
-                <img style=" width: 200px;
+            <a href="#{{p.id}}" role="button">
+                <figure>
+                    <img style=" width: 200px;
   height: 100px;
   object-fit: cover;" class="img-fluid"
-                     src="http://127.0.0.1:8000/media/{{p.image}}" alt="">
-            </figure>
+                         src="http://127.0.0.1:8000/media/{{p.image}}" alt="">
+                </figure>
+            </a>
         </div>
 
 
