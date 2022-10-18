@@ -1,10 +1,337 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load static %}
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+<div class="card rounded">
+    <div class="card-header">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <img class="img-xs rounded-circle"
+                     src="http://127.0.0.1:8000/media/{{p.user_id.image}}" alt="">
+                <div class="ms-2">
+                    <p class="mb-0">{{p.user_id.fname}} {{p.user_id.lname}}</p>
+                    <p class="tx-11 text-muted mb-0">{{p.creatDate.date}}</p>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="btn p-0" type="button" id="dropdownMenuButton2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-more-horizontal icon-lg pb-3px">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <a class="dropdown-item d-flex align-items-center" href="/irrigreatapp/deletePost/{{p.id}}">
+                        <img src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png"/>
+                        <span class="">Delete</span></a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-meh icon-sm mr-2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="8" y1="15" x2="16" y2="15"></line>
+                            <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                            <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                        </svg>
+                        <span class="">Unfollow</span></a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-corner-right-up icon-sm mr-2">
+                            <polyline points="10 9 15 4 20 9"></polyline>
+                            <path d="M4 20h7a4 4 0 0 0 4-4V4"></path>
+                        </svg>
+                        <span class="">Go to post</span></a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-share-2 icon-sm mr-2">
+                            <circle cx="18" cy="5" r="3"></circle>
+                            <circle cx="6" cy="12" r="3"></circle>
+                            <circle cx="18" cy="19" r="3"></circle>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                        <span class="">Share</span></a>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-copy icon-sm mr-2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span class="">Copy link</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <p class="mb-3 tx-14">{{p.caption|safe}}</p>
+        <a href="{% url  'irrigreatapp:fullBlog' p.id %}"><small>View More</small></a>
+        <img class="img-fluid" src="http://127.0.0.1:8000/media/{{p.image}}" alt="{{p.image}}">
+    </div>
+    <div class="card-footer">
+        <div class="d-flex post-actions">
+            <!--            Like Button-->
+            <form id="post-Like{{p.id}}">
+                {% csrf_token %}
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <input hidden readonly type="text" value="{{path}}" class="path" name="path">
+                    <button type='submit' name='{{p.id}}' id='{{p.id}}' value='{{p.id}}'
+                            class="d-flex align-items-center text-muted mr-4"><p class="d-none d-md-block ml-2">
+                        {{p.total_like}} <span id="{{p.id}}span"></span> Like</p></button>
+                </div>
+            </form>
+
+            <a href="javascript:;" class="d-flex align-items-center text-muted mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-message-square icon-md">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <p class="d-none d-md-block ml-2">Comment</p>
+            </a>
+            <a href="javascript:;" class="d-flex align-items-center text-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-share icon-md">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                    <polyline points="16 6 12 2 8 6"></polyline>
+                    <line x1="12" y1="2" x2="12" y2="15"></line>
+                </svg>
+                <p class="d-none d-md-block ml-2">Share</p>
+            </a>
+        </div>
+        <!-- Comment Section Start -->
+        <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">-->
+        <style>
+            /*==================================================
+              Post Contents CSS
+              ==================================================*/
+
+            .post-content{
+              background: #f8f8f8;
+              border-radius: 4px;
+              width: 100%;
+              border: 1px solid #f1f2f2;
+              margin-bottom: 20px;
+              overflow: hidden;
+              position: relative;
+            }
+
+            .post-content img.post-image, video.post-video, .google-maps{
+              width: 100%;
+              height: auto;
+            }
+
+            .post-content .google-maps .map{
+              height: 300px;
+            }
+
+            .post-content .post-container{
+              padding: 20px;
+            }
+
+            .post-content .post-container .post-detail{
+              margin-left: 65px;
+              position: relative;
+            }
+
+            .post-content .post-container .post-detail .post-text{
+              line-height: 24px;
+              margin: 0;
+            }
+            .post-text{
+                display: flex;
+                align-items: center;
+            }
+            .post-content .post-container .post-detail .reaction{
+              position: absolute;
+              right: 0;
+              top: 0;
+            }
+
+            .post-content .post-container .post-detail .post-reply{
+              display: inline-flex;
+              margin: 10px auto;
+              width: 100%;
+              padding:8px 10px;
+            }
+            .post-comment{
+
+            }
+            .post-content .post-container .post-detail .post-comment img.profile-photo-sm{
+              margin-right: 10px;
+            }
+
+            .post-content .post-container .post-detail .post-comment .form-control{
+              height: 30px;
+              border: 1px solid #ccc;
+              box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+              margin: 7px 0;
+              min-width: 0;
+            }
+
+            img.profile-photo-md {
+                height: 50px;
+                width: 50px;
+                object-fit:cover;
+                border-radius: 50%;
+            }
+
+            img.profile-photo-sm {
+                object-fit:cover;
+                height: 40px;
+                width: 40px;
+                border-radius: 50%;
+            }
+
+            .text-green {
+                color: #8dc63f;
+            }
+
+            .text-red {
+                color: #ef4136;
+            }
+
+            .following {
+                color: #8dc63f;
+                font-size: 12px;
+                margin-left: 20px;
+            }
+
+
+            .line-divider{
+                display:block;
+            }
+
+            .img-xs{
+                object-fit:cover;
+            }
+        </style>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {% if not p.comments.all %}
+                    <h5 class="text-center text-muted">Be First commenter</h5>
+                    {% else %}
+                    <div class="post-content">
+                        {% for comment in p.comments.all %}
+                        {% if comment.parent == None %}
+                        <div class="post-container">
+                            <img src="http://127.0.0.1:8000/media/{{comment.commenter_id.image}}" alt="{{comment.commenter_id.fname}}"
+                                 class="profile-photo-md pull-left">
+                            <div class="post-detail">
+                                <div class="user-info">
+                                    <h5><a href="/irrigreatapp/friendprofile/{{comment.commenter_id.id}}" class="profile-link">{{ comment.commenter_id.fname }} {{comment.commenter_id.lname}}</a>
+                                        <span
+                                                class="following">following</span></h5>
+                                    <p class="text-muted">Published a comment on {{ comment.creatDate.date }}</p>
+                                </div>
+                                <div class="reaction">
+                                    <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 13</a>
+                                    <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                                </div>
+                                <!-- <div class="line-divider"></div>-->
+                                <div class="post-comment rounded">
+                                    <p> {{ comment.body }}</p>
+                                    <div class="line-divider"></div>
+                                    {% if reply.parent == comment.parent %}
+                                    {% for reply in p.comments.all %}
+                                    {% if reply.parent != None %}
+                                    {% for r in comment.parents.all %}
+                                    <h1 class=" border">{{r.body}}</h1>
+                                    {% endfor %}
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <!-- Collaps comment start -->
+                                <p>
+                                    <a class="" data-bs-toggle="collapse" href="#commentReply{{ comment.id }}"
+                                       role="button" aria-expanded="false" aria-controls="commentReply{{ comment.id }}">
+                                        Reply
+                                    </a>
+                                </p>
+                                <div class="collapse" id="commentReply{{ comment.id }}">
+                                    <div class="post-comment">
+                                        <div class="post-text">
+                                            <img src="http://127.0.0.1:8000/media/{{logeduser.image}}" alt="{{logeduser.fname}}"
+                                                 class="profile-photo-sm mr-3">
+                                            <form action="/irrigreatapp/postComment" method="post" class="w-100">
+                                                {% csrf_token %}
+                                                <div class="input-group input-group-lg mb-3">
+                                                    <input readonly hidden type="text" value="{{comment.id}}"
+                                                           name="comment_id">
+                                                    <input readonly hidden type="text" value="{{p.id}}" name="post_id">
+                                                    <input readonly hidden type="text" value="{{p.user_id.id}}" name="blogger_id">
+                                                    <input readonly hidden type="text" value="{{logeduser.id}}" name="commenter_id">
+                                                    <textarea class="form-control" placeholder="Post a comment"
+                                                              aria-describedby="button-comment-reply"
+                                                              name="comment_body"></textarea>
+                                                    <button class="btn btn-outline-secondary" type="submit"
+                                                            id="button-comment-reply">Reply
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Collaps comment End -->
+                                <div class="line-divider"></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="post-text">
+                        <img src="http://127.0.0.1:8000/media/{{logeduser.image}}" alt="{{logeduser.fname}}"
+                             class="profile-photo-sm mr-3">
+                        <form action="/irrigreatapp/postComment" method="post" class="w-100">
+                            {% csrf_token %}
+                            <div class="input-group input-group-lg mb-3">
+                                <input readonly hidden type="text" value="{{comment.id}}" name="comment_id">
+                                <input readonly hidden type="text" value="{{p.id}}" name="post_id">
+                                <input readonly hidden type="text" value="{{p.user_id.id}}" name="blogger_id">
+                                <input readonly hidden type="text" value="{{ logeduser.id }}" name="commenter_id">
+                                <textarea class="form-control" placeholder="Post a comment"
+                                          aria-describedby="button-comment" name="comment_body"></textarea>
+                                <button class="btn btn-outline-secondary" type="submit" id="button-comment">Comment
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Comment Section End -->
+    </div>
+</div>
+<script type="text/javascript">
+        $(document).on('submit','#post-Like{{p.id}}',function(e){
+                e.preventDefault();
+                console.log('Liked{{p.id}}')
+                $.ajax({
+                    type:'POST',
+                    url:'/irrigreatapp/like/{{p.id}}',
+                    data:{
+                        path:$('.path').val(),
+                        {{p.id}}:$('#{{p.id}}').val(),
+                        csrfmiddlewaretoken:$('input[name= csrfmiddlewaretoken]').val(),
+                    },
+                    success:function(data){
+                        $('#{{p.id}}span').html(data);
+                    }
+                })
+        })
+</script>

@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.bloghome, name='bloghome'),
+    path('timeLine', views.timeLine, name='timeLine'),
     path('smRegView', views.smRegView, name='smRegView'),
     path('smReg', views.smReg, name='smReg'),
     path('smLoginView', views.smLoginView, name='smLoginView'),
@@ -16,4 +17,5 @@ urlpatterns = [
     path('like/<str:id>', views.likepost, name='like'),
     path('deletePost/<str:id>', views.deletePost, name='deletePost'),
     path('postComment', views.postComment, name='postComment'),
+    path('fullBlog/<str:id>', views.fullBlog, name='fullBlog'),
 ]

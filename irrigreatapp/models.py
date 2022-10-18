@@ -35,10 +35,10 @@ class SmUserProfile(models.Model):
 
 
 class Post(models.Model):
-    user_id = models.ForeignKey(SmUser, related_name="Blogger" ,on_delete= models.CASCADE)
+    user_id = models.ForeignKey(SmUserProfile, related_name="Blogger" ,on_delete= models.CASCADE)
     caption = models.TextField()
     image = models.ImageField(upload_to = 'irrigreatapp/images',blank=True)
-    likes = models.ManyToManyField(SmUser, related_name='likes')
+    likes = models.ManyToManyField(SmUserProfile, related_name='likes')
     creatDate = models.DateTimeField( blank=True)
     updateDate = models.DateTimeField( blank=True)
     def total_like(self):
