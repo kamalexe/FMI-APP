@@ -73,7 +73,9 @@
         </div>
     </div>
     <div class="card-body">
-        <p class="mb-3 tx-14">{{p.caption|safe}}</p>
+        <h6 class="mb-3 tx-14">{{p.heading|safe}}</h6>
+        <!--        <p class="mb-3 tx-14">{{p.caption|safe}}</p>-->
+        <a href="{% url  'irrigreatapp:fullBlog' p.id %}"><small>View More</small></a>
         <img class="img-fluid" src="http://127.0.0.1:8000/media/{{p.image}}" alt="{{p.image}}">
     </div>
     <div class="card-footer">
@@ -218,11 +220,6 @@
             }
 
 
-
-
-
-
-
         </style>
         <div class="container">
             <div class="row">
@@ -234,11 +231,14 @@
                         {% for comment in p.comments.all %}
                         {% if comment.parent == None %}
                         <div class="post-container">
-                            <img src="http://127.0.0.1:8000/media/{{comment.commenter_id.image}}" alt="{{comment.commenter_id.fname}}"
+                            <img src="http://127.0.0.1:8000/media/{{comment.commenter_id.image}}"
+                                 alt="{{comment.commenter_id.fname}}"
                                  class="profile-photo-md pull-left">
                             <div class="post-detail">
                                 <div class="user-info">
-                                    <h5><a href="/irrigreatapp/friendprofile/{{comment.commenter_id.id}}" class="profile-link">{{ comment.commenter_id.fname }} {{comment.commenter_id.lname}}</a>
+                                    <h5><a href="/irrigreatapp/friendprofile/{{comment.commenter_id.id}}"
+                                           class="profile-link">{{ comment.commenter_id.fname }}
+                                        {{comment.commenter_id.lname}}</a>
                                         <span
                                                 class="following">following</span></h5>
                                     <p class="text-muted">Published a comment on {{ comment.creatDate.date }}</p>
@@ -269,23 +269,28 @@
                                     </a>
                                 </p>
                                 <div class="collapse" id="commentReply{{ comment.id }}">
+                                    <!--Reply-->
                                     <div class="post-comment">
                                         <div class="post-text">
-                                            <img src="http://127.0.0.1:8000/media/{{logeduser.image}}" alt="{{logeduser.fname}}"
+                                            <img src="http://127.0.0.1:8000/media/{{logeduser.image}}"
+                                                 alt="{{logeduser.fname}}"
                                                  class="profile-photo-sm mr-3">
-                                            <form action="/irrigreatapp/postComment" method="post" class="w-100">
+                                            <form action="{% url 'irrigreatapp:post_Comment' %}" method="post"
+                                                  class="w-100">
                                                 {% csrf_token %}
                                                 <div class="input-group input-group-lg mb-3">
                                                     <input readonly hidden type="text" value="{{comment.id}}"
                                                            name="comment_id">
                                                     <input readonly hidden type="text" value="{{p.id}}" name="post_id">
-                                                    <input readonly hidden type="text" value="{{p.user_id.id}}" name="blogger_id">
-                                                    <input readonly hidden type="text" value="{{logeduser.id}}" name="commenter_id">
+                                                    <input readonly hidden type="text" value="{{p.user_id.id}}"
+                                                           name="blogger_id">
+                                                    <input readonly hidden type="text" value="{{ logeduser.id }}"
+                                                           name="commenter_id">
                                                     <textarea class="form-control" placeholder="Post a comment"
-                                                              aria-describedby="button-comment-reply"
+                                                              aria-describedby="button-reply"
                                                               name="comment_body"></textarea>
                                                     <button class="btn btn-outline-secondary" type="submit"
-                                                            id="button-comment-reply">Reply
+                                                            id="button-reply">Reply
                                                     </button>
                                                 </div>
                                             </form>
@@ -303,7 +308,7 @@
                     <div class="post-text">
                         <img src="http://127.0.0.1:8000/media/{{logeduser.image}}" alt="{{logeduser.fname}}"
                              class="profile-photo-sm mr-3">
-                        <form action="/irrigreatapp/postComment" method="post" class="w-100">
+                        <form action="{% url 'irrigreatapp:post_Comment' %}" method="post" class="w-100">
                             {% csrf_token %}
                             <div class="input-group input-group-lg mb-3">
                                 <input readonly hidden type="text" value="{{comment.id}}" name="comment_id">
@@ -340,4 +345,6 @@
                     }
                 })
         })
+
+
 </script>
