@@ -146,6 +146,9 @@ body {
         opacity:0;
    }
 
+
+
+
 </style>
 <script>
         var isAdvancedUpload = function() {
@@ -256,6 +259,9 @@ body {
               uploadButton.innerHTML = `Upload`;
           });
 
+
+
+
 </script>
 <div class="container">
     <h1>Create Post</h1>
@@ -265,12 +271,12 @@ body {
 
         <input readonly hidden type="text" name='userid' value="{{username.id}}">
         <div class="drag-file-area mx-auto">
-            <span class="material-icons-outlined upload-icon"> file_upload </span>
+            <span class="material-icons-outlined upload-icon" style="position: relative; top: 4pc;"> file_upload </span>
 
-            <label class="label"><span class="browse-files">
-                    <input type="file" id="realupload" name='postimg' class=" realupload default-file-input"/>
-                     </span>
-
+            <label class="label">
+                <span class="browse-files">
+                    <input type="file" id="realupload" name='postimg' class=" realupload default-file-input" style="cursor: pointer; height:6rem;"/>
+                </span>
             </label>
             <div class="browse-files-text">browse file <span>from device</span></div>
         </div>
@@ -285,8 +291,16 @@ body {
 
         {% comment %} Imagrs end {% endcomment %}
         <div class="mb-3">
+            <label class="form-label">Heading</label>
+            <input type="text" class="form-control" name="heading">
+        </div>
+        <div class="mb-3">
             <label class="form-label">Caption</label>
             <textarea class="form-control" name="postcaption" rows="3"></textarea>
+        </div>
+         <div class="mb-3">
+            <label class="form-label">Slug</label>
+            <input type="text" class="form-control" name="slug">
         </div>
         <button type="submit" class="upload-button mx-auto"> Upload</button>
     </form>
@@ -294,5 +308,4 @@ body {
 <script type="module">
     import Autogrow from "https://cdn.jsdelivr.net/npm/vanilla-autogrow@1.0.0/autogrow.min.js";
     var inst = new Autogrow();
-
 </script>

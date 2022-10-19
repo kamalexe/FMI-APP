@@ -1,0 +1,51 @@
+<!-- right wrapper start -->
+<div class="d-none d-xl-block col-md-4 col-xl-3 right-wrapper"
+                 style="position:fixed; top:0rem;right:0;margin-top:8rem;">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="card rounded">
+                            <div class="card-body">
+                                <h6 class="card-title">Latest photos</h6>
+                                {% include 'latestPhoto.html' %}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 grid-margin">
+                        <div class="card rounded">
+                            <div class="card-body">
+                                <h6 class="card-title">Suggestions for you</h6>
+                                {% for user in allSmUser %}
+                                {% if user.id == logeduser.id %}
+                                {% elif user.id %}
+                                <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
+                                    <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                        <div class="d-flex align-items-center hover-pointer">
+                                            <img class="img-xs rounded-circle"
+                                                 src="http://127.0.0.1:8000/media/{{user.image}}" alt="">
+                                            <div class="ms-2">
+                                                <p class="mb-0">{{ user.fname }} {{ user.lname }}</p>
+                                                <p class="text-muted mb-0" style="font-size: 11px;">
+                                                    {{user.total_follow}}
+                                                    Follower</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <form action='friendprofile/follow/{{user.id}}' method='POST'>
+                                        {% csrf_token %}
+                                        <div class="btn-group" role="group"
+                                             aria-label="Button group with nested dropdown">
+                                            <button type='submit' name='{{user.id}}' value='{{user.id}}'
+                                                    class="btn btn-sm btn-primary btn-sm w-100">Follow<i class=""></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- right wrapper end -->

@@ -27,15 +27,12 @@
 }
 
 
-
-
-
 </style>
 
 <div class="profile-page tx-13">
     <div class="row">
         <div class="col-12 grid-margin">
-            <div class="profile-header">
+            <div class="profile-header ">
                 <div class="cover">
                     <div class="gray-shade"></div>
                     <div class="gray-shade"></div>
@@ -182,10 +179,13 @@
                                 })
 
 
+
+
                                 </script>
                             </div>
                         </div>
                     </div>
+                    <!--Header Start-->
                     <div class="header-links">
                         <ul class="links d-flex align-items-center mt-3 mt-md-0">
                             <li class="header-link-item border-end d-flex align-items-center active">
@@ -238,12 +238,13 @@
                             </li>
                         </ul>
                     </div>
+                    <!--Header End-->
                 </div>
             </div>
         </div>
         <div class="row profile-body">
             <!-- left wrapper start -->
-            <div class="d-none d-md-block col-md-4 col-xl-3 left-wrapper">
+            <div class="d-none d-md-block col-md-4 col-xl-3 left-wrapper" style="height:100vh; position:sticky; top:70px;">
                 <div class="card rounded">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-2">
@@ -380,7 +381,8 @@
             </div>
             <!-- middle wrapper end -->
             <!-- right wrapper start -->
-            <div class="d-none d-xl-block col-xl-3 right-wrapper">
+            <div class="d-none d-xl-block col-xl-3 right-wrapper"
+                 style="height:100vh; position:sticky; top:70px;">
                 <div class="row">
                     <div class="col-md-12 grid-margin">
                         <div class="card rounded">
@@ -429,4 +431,4 @@
         </div>
     </div>
 </div>
-    {% endblock baseBody %}
+{% endblock baseBody %}
