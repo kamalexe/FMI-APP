@@ -5,9 +5,9 @@
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <img class="img-xs rounded-circle"
-                     src="http://127.0.0.1:8000/media/{{username.image}}" alt="">
+                     src="http://127.0.0.1:8000/media/{{p.user_id.image}}" alt="">
                 <div class="ms-2">
-                    <p class="mb-0">{{username.fname}} {{username.lname}}</p>
+                    <p class="mb-0">{{p.user_id.fname}} {{p.user_id.lname}}</p>
                     <p class="tx-11 text-muted mb-0">{{p.creatDate.date}}</p>
                 </div>
             </div>
@@ -73,8 +73,7 @@
         </div>
     </div>
     <div class="card-body">
-        <h6 class="mb-3 tx-14">{{p.heading|safe}}</h6>
-        <!--        <p class="mb-3 tx-14">{{p.caption|safe}}</p>-->
+        <p class="mb-3 tx-14">{{p.heading|safe}}</p>
         <a href="{% url  'irrigreatapp:fullBlog' p.id %}"><small>View More</small></a>
         <img class="img-fluid" src="http://127.0.0.1:8000/media/{{p.image}}" alt="{{p.image}}">
     </div>
@@ -219,7 +218,6 @@
                 object-fit:cover;
             }
 
-
         </style>
         <div class="container">
             <div class="row">
@@ -269,13 +267,12 @@
                                     </a>
                                 </p>
                                 <div class="collapse" id="commentReply{{ comment.id }}">
-                                    <!--Reply-->
                                     <div class="post-comment">
                                         <div class="post-text">
                                             <img src="http://127.0.0.1:8000/media/{{logeduser.image}}"
                                                  alt="{{logeduser.fname}}"
                                                  class="profile-photo-sm mr-3">
-                                            <form action="{% url 'irrigreatapp:post_Comment' %}" method="post"
+                                              <form action="{% url 'irrigreatapp:post_Comment' %}" method="post"
                                                   class="w-100">
                                                 {% csrf_token %}
                                                 <div class="input-group input-group-lg mb-3">
@@ -294,6 +291,7 @@
                                                     </button>
                                                 </div>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -345,6 +343,5 @@
                     }
                 })
         })
-
 
 </script>

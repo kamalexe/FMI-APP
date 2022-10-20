@@ -10,25 +10,41 @@ def bloghome(request):
 
     global username, userid, logeduser
     try:
-        print(request.session['smUser'])
         if request.session['smUser']:
             userid = SmUser.objects.get(email=request.session['smUser'])
             username = SmUserProfile.objects.get(email=request.session['smUser'])
             logeduser=username
         allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
         post = Post.objects.filter(user_id = username.id)
-        print('*************')
-        print(post)
-        print('*************')
+
         comment = Comment.objects.filter(parent=None)
-        print('##########')
-        print(comment.first())
+
         # for comment in comment:
         #     print(comment.id)
-        print('##########')
+
         path = request.path_info
         context = {'userid':userid,'username': username,'allSmUser':allSmUser,'post':post,'path':path,'logeduser':logeduser,'comment':comment}
         return render(request, 'bloghome.html',context)
+    except Exception as e:
+        print(e)
+    return render(request, 'sm_login.html')
+
+def timeLine(request):
+
+    global username, userid, logeduser
+    try:
+        # print(request.session['smUser'])
+        # print('Timeline')
+        if request.session['smUser']:
+            userid = SmUser.objects.get(email=request.session['smUser'])
+            username = SmUserProfile.objects.get(email=request.session['smUser'])
+            logeduser=username
+        allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
+        post = Post.objects.all().order_by('-updateDate')
+        comment = Comment.objects.filter(parent=None)
+        path = request.path_info
+        context = {'userid':userid,'username': username,'allSmUser':allSmUser,'post':post,'path':path,'logeduser':logeduser,'comment':comment}
+        return render(request, 'timeLine.html',context)
     except Exception as e:
         print(e)
     return render(request, 'sm_login.html')
@@ -147,19 +163,23 @@ def follow(request,id):
     else:
         username.follow.add(follower.id)
         follow = True
+    # return reverse('irrigreatapp:follow'id)
+    # return HttpResponseRedirect("url  'irrigreatapp:follow' id")
     return redirect(f'/irrigreatapp/friendprofile/{id}')
 
 def createPost(request,id):
 
+    heading = request.POST.get('heading')
     caption = request.POST.get('postcaption')
+    slug = request.POST.get('slug')
     user_id = request.POST.get('userid')
-    username = SmUser.objects.get(id = user_id)
+    username = SmUserProfile.objects.get(id = user_id)
     user_id = username
 
     image = request.FILES.get('postimg')
     creatDate = datetime.now()
     updateDate = datetime.now()
-    post = Post.objects.create(caption=caption,user_id=user_id,image=image,creatDate=creatDate,updateDate=updateDate)
+    post = Post.objects.create(heading=heading,caption=caption,slug=slug,user_id=user_id,image=image,creatDate=creatDate,updateDate=updateDate)
     return redirect(f'/irrigreatapp/')
 
 
@@ -188,16 +208,11 @@ def deletePost(request,id):
     post.delete()
     return redirect(reverse('irrigreatapp:bloghome'))
 
-
-def postComment(request):
+def post_Comment(request):
     if request.method == "POST":
         post_id = request.POST.get('post_id')
         post = Post.objects.get(id=post_id)
         blogger_id = request.POST.get('blogger_id')
-        print('##########')
-        print('##########')
-        print(blogger_id)
-        print('##########')
         username = SmUser.objects.get(id=blogger_id)
         blogger = SmUserProfile.objects.get(user_id=username)
         commenter_id = request.POST.get('commenter_id')
@@ -213,4 +228,23 @@ def postComment(request):
             parent = Comment.objects.get(id=parent_sno)
             comment = Comment(post=post,blogger_id=blogger,commenter_id=commenter,body=body,updateDate=updateDate,parent=parent)
             comment.save()
-    return HttpResponse('Commented')
+
+    return HttpResponse('Comment')
+
+def fullBlog(request, id):
+    try:
+        if request.session['smUser']:
+            userid = SmUser.objects.get(email=request.session['smUser'])
+            username = SmUserProfile.objects.get(email=request.session['smUser'])
+            logeduser = username
+        print(id)
+        post = Post.objects.get(id=id)
+        print(post.caption)
+        payload = {'logeduser':logeduser,'post':post}
+        return render(request, 'fullBlog.html',payload)
+    except:
+        return redirect(reverse('irrigreatapp:bloghome'))
+
+def search(request):
+    print("#@!!!!!!!!!!!!!!!!!!@$@")
+    return HttpResponse('Hi')
