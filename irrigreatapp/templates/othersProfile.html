@@ -32,17 +32,6 @@
                                         <button type='submit' name='{{username.id}}' value='{{username.id}}' class="btn btn-sm btn-primary btn-sm">Follow<i class="{{likesymb}}" ></i></button>
                                     </div>
                                 </form>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                      See
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        {% for follow in username.follow.all %}
-
-                                        <li><a class="dropdown-item" href="/irrigreatapp/friendprofile/{{follow.id}}">{{follow.fname}}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                  </div>
                               </div>
 
 
@@ -64,8 +53,10 @@
     </div>
     <div class="row profile-body">
         <!-- left wrapper start -->
-        <div class="d-none d-md-block col-md-4 col-xl-3 left-wrapper"style="height:100vh; position:sticky; top:70px;">
-            <div class="card rounded">
+        <div class="d-none d-md-block col-md-4 col-xl-3 middle-wrapper"
+                 style="height:100vh; position:sticky; top:70px;">
+             <!--about About Start-->
+            <div class="card rounded grid-margin">
                 <div class="card-body">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <h6 class="card-title mb-0">About</h6>
@@ -163,6 +154,36 @@
                     </div>
                 </div>
             </div>
+            <!--about About End-->
+            <!--about Friend List Start-->
+                <div class="card rounded grid-margin">
+                    <div class="card-body" id="#friendList">
+                        <h2 style="font-size:12px" class="card-title">Friend ({{username.total_follow}})</h2>
+                        <div style="height:33vh; overflow-y: auto;">
+                            {% for user in username.follow.all %}
+                            <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
+                                <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                    <div class="d-flex align-items-center hover-pointer">
+                                        {% if user.image %}
+                                        <img class="img-xs rounded-circle"
+                                             src="http://127.0.0.1:8000/media/{{user.image}}" alt="{{user.image}}">
+                                        {% endif %}
+                                        <div class="ms-2"
+                                             style="display:flex; flex-direction: column; align-items: flex-start;">
+                                            <p class="mb-0"><b>{{ user.fname }}</b></p>
+                                            <p class="text-muted mb-0" style="font-size: 11px;">
+                                                {% if user.userType %}
+                                                <b>User Type </b>{{user.userType}} </p>
+                                            {% else %} None {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!--about Friend List end-->
               <!-- logout Button-->
             <div class="card rounded mt-3">
                 <div class="card-body">

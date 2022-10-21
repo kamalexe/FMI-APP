@@ -38,7 +38,7 @@ class Post(models.Model):
     user_id = models.ForeignKey(SmUserProfile, related_name="Blogger" ,on_delete= models.CASCADE)
     heading = models.CharField(max_length=20,default='')
     caption = models.TextField()
-    slug = models.CharField(max_length=20,default='')
+    slug = models.SlugField(max_length=20,unique=True)
     image = models.ImageField(upload_to = 'irrigreatapp/images',blank=True)
     likes = models.ManyToManyField(SmUserProfile, related_name='likes')
     creatDate = models.DateTimeField( blank=True)

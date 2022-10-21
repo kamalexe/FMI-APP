@@ -74,7 +74,7 @@
     </div>
     <div class="card-body">
         <p class="mb-3 tx-14">{{p.heading|safe}}</p>
-        <a href="{% url  'irrigreatapp:fullBlog' p.id %}"><small>View More</small></a>
+        <a href="{% url  'irrigreatapp:fullBlog' p.slug %}"><small>View More</small></a>
         <img class="img-fluid" src="http://127.0.0.1:8000/media/{{p.image}}" alt="{{p.image}}">
     </div>
     <div class="card-footer">

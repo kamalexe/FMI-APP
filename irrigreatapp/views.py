@@ -135,7 +135,6 @@ def friendprofile(request ,id):
         follower = SmUser.objects.get(email=request.session['smUser'])
         sm_userobj = SmUserProfile.objects.get(id = id)
         logeduser =SmUserProfile.objects.get(email=request.session['smUser'])
-        print(sm_userobj)
         username = SmUserProfile.objects.get(user_id = sm_userobj.id)
         if username.follow.filter(id=follower.id).exists():
             # follow = False
@@ -149,7 +148,10 @@ def friendprofile(request ,id):
         path = request.path_info
         context = {'username':username,'allSmUser':allSmUser,'post':post,'path':path,'followbtn':followbtn,'logeduser':logeduser}
         return render(request, 'othersProfile.html',context)
-    except:
+    except Exception as e:
+        print('#################')
+        print(e)
+        print('#################')
         return redirect(reverse('irrigreatapp:bloghome'))
 
 
@@ -237,14 +239,20 @@ def fullBlog(request, id):
             userid = SmUser.objects.get(email=request.session['smUser'])
             username = SmUserProfile.objects.get(email=request.session['smUser'])
             logeduser = username
-        print(id)
         post = Post.objects.get(id=id)
-        print(post.caption)
+        print(post.slug)
         payload = {'logeduser':logeduser,'post':post}
         return render(request, 'fullBlog.html',payload)
     except:
         return redirect(reverse('irrigreatapp:bloghome'))
 
-def search(request):
-    print("#@!!!!!!!!!!!!!!!!!!@$@")
-    return HttpResponse('Hi')
+def search(request,id):
+    if request.method == "POST":
+        searchReq = request.POST.get('search')
+        print(searchReq)
+        search = SmUserProfile.objects.filter(Q(fname__icontains=searchReq) | Q(lname__icontains=searchReq))
+        logeduser = SmUserProfile.objects.get(email=request.session['smUser'])
+        post = Post.objects.all().order_by('-updateDate')[:3]
+        allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
+        context = {'search':search,'post':post,'logeduser':logeduser,'allSmUser':allSmUser}
+    return render(request,'search.html',context)

@@ -19,5 +19,5 @@ urlpatterns = [
     path('like/<str:id>', views.likepost, name='like'),
     path('deletePost/<str:id>', views.deletePost, name='deletePost'),
     path('fullBlog/<str:id>', views.fullBlog, name='fullBlog'),
-    path('search', views.search, name='search'),
+    path('search/<str:id>', views.search, name='search'),
 ]
