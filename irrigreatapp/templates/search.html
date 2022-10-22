@@ -30,7 +30,10 @@
 .img-sm{
     height:10rem;
     width:10rem;
+     object-fit: cover;
 }
+
+
 
 </style>
 
@@ -44,7 +47,7 @@
                 </div>
             </div>
         </div>
-         <h1 style="" class="card-title text-muted">Your Query is <b style="font-size:inherit;">{{search}}</b> </h1>
+        <h1 style="" class="card-title text-muted">Your Query is <b style="font-size:inherit;">{{searchReq}}</b></h1>
 
         <div class="row profile-body">
             <!-- left wrapper start -->
@@ -52,26 +55,28 @@
                  style="height:100vh;">
                 <div class="card rounded grid-margin">
                     <div class="card-body">
-                                <h2 style="font-size:12px" class="card-title">User</h2>
-                                {% for user in allSmUser %}
-                                <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
-                                    <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs"
-                                                 src="http://127.0.0.1:8000/media/{{user.image}}" alt="">
-                                            <div class="ms-2"
-                                                 style="display:flex; flex-direction: column; align-items: flex-start;">
-                                                <p class="mb-0"><b>{{ user.fname }}</b></p>
-                                                <p class="text-muted mb-0" style="font-size: 11px;">
-                                                    {% if user.userType %}
-                                                    <b>User Type </b>{{user.userType}} </p>
-                                                {% else %} None {% endif %}
-                                            </div>
-                                        </div>
-                                    </a>
+                        <h2 style="font-size:12px" class="card-title">Search User</h2>
+                        {% for user in searchUser %}
+                        <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
+                            <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                <div class="d-flex align-items-center hover-pointer">
+                                    <img class="img-xs"
+                                         src="http://127.0.0.1:8000/media/{{user.image}}" alt="">
+                                    <div class="ms-2"
+                                         style="display:flex; flex-direction: column; align-items: flex-start;">
+                                        <p class="mb-0"><b>{{ user.fname }}</b></p>
+                                        <p class="text-muted mb-0" style="font-size: 11px;">
+                                            {% if user.userType %}
+                                            <b>User Type </b>{{user.userType}} </p>
+                                        {% else %} None {% endif %}
+                                    </div>
                                 </div>
-                                {% endfor %}
-                            </div>
+                            </a>
+                        </div>
+                        {% empty %}
+                        <h1>Empty</h1>
+                        {% endfor %}
+                    </div>
                 </div>
                 <!-- logout Button Start-->
                 <div class="card rounded grid-margin">
@@ -87,7 +92,7 @@
                     <!--logout Button-->
 
                 </div>
-                 <!-- logout Button End-->
+                <!-- logout Button End-->
             </div>
             <!-- left wrapper end -->
             <!-- middle wrapper start -->
@@ -96,9 +101,10 @@
                     <div class="col-md-12 grid-margin">
                         <div class="card rounded">
                             <div class="card-body">
-                                <h2 style="font-size:12px" class="card-title">Post</h2>
+                                <h2 style="font-size:12px" class="card-title">Search Post</h2>
                                 {% for p in post %}
-                                <div id="{{p.id}}" class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
+                                <div id="{{p.id}}"
+                                     class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
                                     <a class="btn btn-icon" href="{% url  'irrigreatapp:fullBlog' p.id %}">
                                         <div class="d-flex align-items-start hover-pointer">
                                             <img class="img-sm"
@@ -111,6 +117,10 @@
                                             </div>
                                         </div>
                                     </a>
+                                </div>
+                                {% empty %}
+                                <div>
+                                    <h3 class="text-muted">Not Found</h3>
                                 </div>
                                 {% endfor %}
                             </div>
@@ -173,7 +183,7 @@
                         <div class="card rounded">
                             <div class="card-body">
                                 <h6 class="card-title">Suggestions Blog</h6>
-                                {% for p in post %}
+                                {% for p in sugestpost %}
                                 <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
                                     <a class="btn btn-icon" href="{% url  'irrigreatapp:fullBlog' p.id %}">
                                         <div class="d-flex align-items-center hover-pointer">

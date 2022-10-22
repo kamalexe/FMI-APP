@@ -20,4 +20,6 @@ urlpatterns = [
     path('deletePost/<str:id>', views.deletePost, name='deletePost'),
     path('fullBlog/<str:id>', views.fullBlog, name='fullBlog'),
     path('search/<str:id>', views.search, name='search'),
+    path('edit_Profile/<str:id>', views.edit_Profile, name='edit_Profile'),
+    path('edit_Profile/edit_Post/<str:id>', views.edit_Post, name='edit_Post'),
 ]

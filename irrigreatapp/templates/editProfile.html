@@ -1,0 +1,883 @@
+{% extends 'blogbase.html' %}
+
+{% block baseBody %}
+<style>
+    .font-weight-bold{
+        font-style:bold;
+        font-weight: 700;
+    }
+ .show {
+    opacity: -1;
+    }
+    .fade {
+  display: none;
+}
+.modal-backdrop.show {
+    opacity: .5;
+    top: 100vh;
+}
+
+    .tx-14{
+        font-size:1.5rem;
+    }
+    img.profile-pic {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+{% if not id %}
+<div class="profile-page tx-13">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="profile-header " style="max-height:7rem; min-height:5rem;">
+            </div>
+        </div>
+    </div>
+    <!--Edit Profile Start-->
+    <div class="row"></div>
+    <!--Edit Profile End-->
+
+    <!--Edit Profile Start-->
+    <div class="row">
+        <div class="row profile-body">
+            <!-- left wrapper start -->
+            <div class="d-none d-md-block col-md-4 col-xl-3 middle-wrapper"
+                 style="height:100vh; position:sticky; top:70px;">
+                <!--about Start-->
+                <div class="card rounded grid-margin">
+                    <div class="card-body">
+                        <img alt="{{logeduser.fname}}" src="http://127.0.0.1:8000/media/{{logeduser.image}}"
+                             style="object-fit: cover; height:100%;width:100%">
+                    </div>
+
+                </div>
+                <!--about End-->
+
+
+                <!--about Friend List Start-->
+                <div class="card rounded grid-margin">
+                    <div class="card-body" id="#friendList">
+                        <h2 class="card-title" style="font-size:12px">Friends ({{logeduser.total_follow}})</h2>
+                        <div style="height:33vh; overflow-y: auto;">
+                            {% for user in logeduser.follow.all %}
+                            <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
+                                <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                    <div class="d-flex align-items-center hover-pointer">
+                                        {% if user.image %}
+                                        <img alt="{{user.image}}"
+                                             class="img-xs rounded-circle"
+                                             src="http://127.0.0.1:8000/media/{{user.image}}">
+                                        {% endif %}
+                                        <div class="ms-2"
+                                             style="display:flex; flex-direction: column; align-items: flex-start;">
+                                            <p class="mb-0"><b>{{ user.fname }}</b></p>
+                                            <p class="text-muted mb-0" style="font-size: 11px;">
+                                                {% if user.userType %}
+                                                <b>User Type </b>{{user.userType}} </p>
+                                            {% else %} None {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!--about Friend List end-->
+                <!-- logout Button-->
+                <div class="card rounded mt-3">
+                    <div class="card-body">
+
+                        <div class="mt-3">
+                            <a class="btn btn-primary btn-block w-100" href="/irrigreatapp/smLogout">Log Out</a>
+                        </div>
+                    </div>
+                    <!--logout Button-->
+
+                </div>
+            </div>
+            <!-- left wrapper end -->
+            <!-- middle wrapper start -->
+            <div class="col-md-8 col-xl-6 middle-wrapper">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="card rounded grid-margin">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <h3 class="card-title mb-0">Edit Profile</h3>
+                                </div>
+                                <!--Edit Profile Form Start-->
+                                <div class="container">
+                                    <form action="{% url 'irrigreatapp:smProfile' %}"
+                                          class="form col-md-12 center-block"
+                                          method="POST">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label>First Name:</label>
+                                                <input class="form-control input-sm" name="fname"
+                                                       placeholder="First Name"
+
+                                                       type="text" value="{{logeduser.fname}}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Last Name:</label>
+                                                <input class="form-control input-sm" name="lname"
+                                                       placeholder="Last Name"
+                                                       type="text" value="{{logeduser.lname}}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-9">
+                                                <label>Email:</label>
+                                                <input class="form-control input-sm" name="email"
+                                                       placeholder="Email"
+                                                       type="text" value="{{logeduser.email}}">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label>User Id:</label>
+                                                <input autocomplete="username" class="form-control input-sm"
+                                                       name="userid"
+                                                       readonly type="text"
+                                                       value="{{logeduser.id}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 bg-light card-body round">
+                                            <label>Old Password:</label>
+                                            <input autocomplete="current-password" class="form-control input-sm"
+                                                   name="password" placeholder="Password"
+                                                   type="password">
+                                            <label>New Password:</label>
+                                            <input autocomplete="current-password" class="form-control input-sm"
+                                                   name="new_password" placeholder="New Password"
+                                                   type="password">
+                                            <label>Confirem Password:</label>
+                                            <input autocomplete="current-password" class="form-control input-sm"
+                                                   name="con_password" placeholder="Confirem Password"
+                                                   type="password">
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label>Birthday:</label>
+                                                <input class="form-control input-sm" name="bdate"
+                                                       type="date"
+                                                       value="">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Gender:</label>
+                                                <select class="form-control input-sm" name="gender">
+                                                    <option disabled value="{{userid.gender}}">
+                                                        {{userid.gender}}
+                                                    </option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label>City:</label>
+                                                <input class="form-control input-sm" name="city"
+                                                       type="text"
+                                                       value="{{logeduser.city}}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>User Type:</label>
+                                                <select class="form-control input-sm" name="user_type">
+                                                    <option value="{{logeduser.userType}}">
+                                                        {{logeduser.userType}}
+                                                    </option>
+                                                    <option value="Farmer">Farmer</option>
+                                                    <option value="Merchant">Merchant</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label>About:</label>
+                                            <textarea class="form-control input-sm" name="about"
+                                                      type="text">{{logeduser.about}}</textarea>
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <div class="d-grid gap-2">
+                                                <button class="btn btn-primary" type="submit">Submit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--Edit Profile Form Start-->
+                            </div>
+                        </div>
+                        <div class="card rounded grid-margin">
+                            <div class="card-body">
+                                <h2 class="card-title" style="font-size:12px">Your Post</h2>
+                                {% for p in post %}
+                                <div class="d-flex justify-content-between mb-2 pb-2 w-100  {% if not forloop.last %} border-bottom {% endif %}"
+                                     id="{{p.id}}">
+                                    <a class="btn btn-icon w-100" href="{% url  'irrigreatapp:fullBlog' p.id %}">
+                                        <div class="d-flex align-items-start hover-pointer">
+                                            <img alt=""
+                                                 class="img-xs" src="http://127.0.0.1:8000/media/{{p.image}}"
+                                                 style="height:10rem;width:10rem;object-fit: cover;">
+                                            <div class="ms-2"
+                                                 style="display:flex; flex-direction: column; align-items: flex-start;">
+                                                <p class="mb-0"><b style="font-size: 2rem;">{{ p.heading }}</b></p>
+                                                <p class="text-muted mb-0" style="font-size: 1.5rem;">
+                                                    <b style="font-size: 1.5rem;">Author </b>{{p.user_id.fname}}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                {% empty %}
+                                <div>
+                                    <h3 class="text-muted">Not Found</h3>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- middle wrapper end -->
+            <!-- right wrapper start -->
+            <div class="d-none d-xl-block col-xl-3 right-wrapper"
+                 style="height:100vh; position:sticky; top:70px;">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="card rounded">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <h6 class="card-title mb-0">About</h6>
+                                </div>
+                                <p>{{logeduser.about}}</p>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Update:</label>
+                                    <p class="text-muted">{{logeduser.creatDate.date}}</p>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Joined:</label>
+                                    <p class="text-muted">{{logeduser.updateDate.date}}</p>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Lives:</label>
+                                    <p class="text-muted">{{logeduser.city}}</p>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Email:</label>
+                                    <p class="text-muted">{{logeduser.email}}</p>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Occupation:</label>
+                                    <p class="text-muted">{{logeduser.userType}}</p>
+                                </div>
+                                <div class="mt-3 d-flex social-links">
+                                    <a class="btn d-flex align-items-center justify-content-center border mr-2 btn-icon github"
+                                       href="javascript:;">
+                                        <svg class="feather feather-github" data-original-title="github.com/nobleui"
+                                             data-toggle="tooltip"
+                                             fill="none"
+                                             height="24" stroke="currentColor" stroke-linecap="round"
+                                             stroke-linejoin="round"
+                                             stroke-width="2" title=""
+                                             viewBox="0 0 24 24"
+                                             width="24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                        </svg>
+                                    </a>
+                                    <a class="btn d-flex align-items-center justify-content-center border mr-2 btn-icon twitter"
+                                       href="javascript:;">
+                                        <svg class="feather feather-twitter" data-original-title="twitter.com/nobleui"
+                                             data-toggle="tooltip" fill="none"
+                                             height="44" stroke="currentColor" stroke-linecap="round"
+                                             stroke-linejoin="round"
+                                             stroke-width="2" title=""
+                                             viewBox="0 0 24 24"
+                                             width="" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                                        </svg>
+                                    </a>
+                                    <a class="btn d-flex align-items-center justify-content-center border mr-2 btn-icon instagram"
+                                       href="javascript:;">
+                                        <svg class="feather feather-instagram"
+                                             data-original-title="instagram.com/nobleui" data-toggle="tooltip"
+                                             fill="none"
+                                             height="24" stroke="currentColor" stroke-linecap="round"
+                                             stroke-linejoin="round"
+                                             stroke-width="2" title=""
+                                             viewBox="0 0 24 24"
+                                             width="24" xmlns="http://www.w3.org/2000/svg">
+                                            <rect height="20" rx="5" ry="5" width="20" x="2" y="2"></rect>
+                                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 grid-margin">
+                        <div class="card rounded">
+                            <div class="card-body">
+                                <h6 class="card-title">Suggestions for you</h6>
+                                {% for user in allSmUser %}
+                                <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
+                                    <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                        <div class="d-flex align-items-center hover-pointer">
+                                            <img alt=""
+                                                 class="img-xs rounded-circle"
+                                                 src="http://127.0.0.1:8000/media/{{user.image}}">
+                                            <div class="ms-2">
+                                                <p class="mb-0">{{ user.fname }} {{ user.lname }}</p>
+                                                <p class="text-muted mb-0" style="font-size: 11px;">
+                                                    {{user.total_follow}}
+                                                    Follower</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <form action='friendprofile/follow/{{user.id}}' method='POST'>
+                                        {% csrf_token %}
+                                        <div aria-label="Button group with nested dropdown" class="btn-group"
+                                             role="group">
+                                            <button class="btn btn-sm btn-primary btn-sm w-100" name='{{user.id}}'
+                                                    type='submit'
+                                                    value='{{user.id}}'>Follow<i class=""></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- right wrapper end -->
+        </div>
+    </div>
+    <!--Edit Profile End-->
+</div>
+{% else %}
+<!--Edit Post Start-->
+<div class="profile-page tx-13">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="profile-header " style="max-height:7rem; min-height:5rem;">
+            </div>
+        </div>
+    </div>
+    <!--Edit Profile Start-->
+    <div class="row"></div>
+    <!--Edit Profile End-->
+
+    <!--Edit Profile Start-->
+    <div class="row">
+        <div class="row profile-body">
+            <!-- left wrapper start -->
+            <div class="d-none d-md-block col-md-4 col-xl-3 middle-wrapper"
+                 style="height:100vh; position:sticky; top:70px;">
+                <!--about Start-->
+                <div class="card rounded grid-margin">
+                    <div class="card-body">
+                        <img alt="{{logeduser.fname}}" src="http://127.0.0.1:8000/media/{{post.image}}"
+                             style="object-fit: cover; height:100%;width:100%">
+                    </div>
+
+                </div>
+                <!--about End-->
+
+
+                <!--about Friend List Start-->
+                <div class="card rounded grid-margin">
+                    <div class="card-body" id="#friendList">
+                        <h2 class="card-title" style="font-size:12px">Like ({{post.likes}})</h2>
+                        <div style="height:33vh; overflow-y: auto;">
+                            {% for user in post.likes.all %}
+                            <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
+                                <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                    <div class="d-flex align-items-center hover-pointer">
+                                        {% if user.image %}
+                                        <img alt="{{user.image}}"
+                                             class="img-xs rounded-circle"
+                                             src="http://127.0.0.1:8000/media/{{user.image}}">
+                                        {% endif %}
+                                        <div class="ms-2"
+                                             style="display:flex; flex-direction: column; align-items: flex-start;">
+                                            <p class="mb-0"><b>{{ user.fname }}</b></p>
+                                            <p class="text-muted mb-0" style="font-size: 11px;">
+                                                {% if user.userType %}
+                                                <b>User Type </b>{{user.userType}} </p>
+                                            {% else %} None {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!--about Friend List end-->
+                <!-- logout Button-->
+                <div class="card rounded mt-3">
+                    <div class="card-body">
+
+                        <div class="mt-3">
+                            <a class="btn btn-primary btn-block w-100" href="/irrigreatapp/smLogout">Log Out</a>
+                        </div>
+                    </div>
+                    <!--logout Button-->
+
+                </div>
+            </div>
+            <!-- left wrapper end -->
+            <!-- middle wrapper start -->
+            <div class="col-md-8 col-xl-6 middle-wrapper">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="card rounded grid-margin">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <h3 class="card-title mb-0">Edit Post</h3>
+                                </div>
+                                <!--Edit Profile Form Start-->
+                                <link crossorigin="anonymous"
+                                      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+                                      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+                                      rel="stylesheet"/>
+                                <script crossorigin="anonymous"
+                                        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+                                        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+                                        type="module"></script>
+
+                                <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined"
+                                      rel="stylesheet">
+                                <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+.form-container {
+	width: 100vw;
+	height: 100vh;
+	background-color: #7b2cbf;
+	display: flex;
+   	justify-content: center;
+	align-items: center;
+}
+.upload-files-container {
+	background-color: #f7fff7;
+	width: 420px;
+	padding: 30px 60px;
+	border-radius: 40px;
+	display: flex;
+   	align-items: center;
+   	justify-content: center;
+	flex-direction: column;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px, rgba(0, 0, 0, 0.28) 0px 6px 6px;
+}
+.drag-file-area {
+	border: 2px dashed #7b2cbf;
+	border-radius: 40px;
+	margin: 10px 0 15px;
+	padding: 30px 50px;
+	width: 350px;
+	text-align: center;
+}
+.drag-file-area .upload-icon {
+	font-size: 50px;
+}
+.drag-file-area h3 {
+	font-size: 26px;
+	margin: 15px 0;
+}
+.drag-file-area label {
+	font-size: 19px;
+}
+.drag-file-area label .browse-files-text {
+	color: #7b2cbf;
+	font-weight: bolder;
+	cursor: pointer;
+}
+.browse-files span {
+	position: relative;
+	top: -25px;
+}
+.default-file-input {
+	opacity: 0;
+}
+.cannot-upload-message {
+	background-color: #ffc6c4;
+	font-size: 17px;
+	display: flex;
+	align-items: center;
+	margin: 5px 0;
+	padding: 5px 10px 5px 30px;
+	border-radius: 5px;
+	color: #BB0000;
+	display: none;
+}
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+.cannot-upload-message span, .upload-button-icon {
+	padding-right: 10px;
+}
+.cannot-upload-message span:last-child {
+	padding-left: 20px;
+	cursor: pointer;
+}
+.file-block {
+	color: #f7fff7;
+	background-color: #7b2cbf;
+  	transition: all 1s;
+	width: 390px;
+	position: relative;
+	display: none;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin: 10px 0 15px;
+	padding: 10px 20px;
+	border-radius: 25px;
+	cursor: pointer;
+}
+.file-info {
+	display: flex;
+	align-items: center;
+	font-size: 15px;
+}
+.file-icon {
+	margin-right: 10px;
+}
+.file-name, .file-size {
+	padding: 0 3px;
+}
+.remove-file-icon {
+	cursor: pointer;
+}
+.progress-bar {
+	display: flex;
+	position: absolute;
+	bottom: 0;
+	left: 4.5%;
+	width: 0;
+	height: 5px;
+	border-radius: 25px;
+	background-color: #4BB543;
+}
+.upload-button {
+	font-family: 'Montserrat';
+	background-color: #7b2cbf;
+	color: #f7fff7;
+	display: flex;
+	align-items: center;
+	font-size: 18px;
+	border: none;
+	border-radius: 20px;
+	margin: 10px;
+	padding: 7.5px 50px;
+	cursor: pointer;
+}
+.realupload {
+       position: inherit;
+        top: 0px;
+        right: 0PX;
+        width: inherit;
+        height: inherit;
+        margin: 0px;
+        opacity:0;
+   }
+
+
+
+
+
+
+
+
+
+
+                                </style>
+                                <script>
+        var isAdvancedUpload = function() {
+            var div = document.createElement('div');
+            return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
+          }();
+
+          let draggableFileArea = document.querySelector(".drag-file-area");
+          let browseFileText = document.querySelector(".browse-files");
+          let uploadIcon = document.querySelector(".upload-icon");
+          let dragDropText = document.querySelector(".dynamic-message");
+          let fileInput = document.querySelector(".default-file-input");
+          let cannotUploadMessage = document.querySelector(".cannot-upload-message");
+          let cancelAlertButton = document.querySelector(".cancel-alert-button");
+          let uploadedFile = document.querySelector(".file-block");
+          let fileName = document.querySelector(".file-name");
+          let fileSize = document.querySelector(".file-size");
+          let progressBar = document.querySelector(".progress-bar");
+          let removeFileButton = document.querySelector(".remove-file-icon");
+          let uploadButton = document.querySelector(".upload-button");
+          let fileFlag = 0;
+
+          fileInput.addEventListener("click", () => {
+              fileInput.value = '';
+              console.log(fileInput.value);
+          });
+
+          fileInput.addEventListener("change", e => {
+              console.log(" > " + fileInput.value)
+              uploadIcon.innerHTML = 'check_circle';
+              dragDropText.innerHTML = 'File Dropped Successfully!';
+              document.querySelector(".label").innerHTML = `drag & drop or <span class="browse-files"> <input type="file" class="default-file-input" style=""/> <span class="browse-files-text" style="top: 0;"> browse file</span></span>`;
+              uploadButton.innerHTML = `Upload`;
+              fileName.innerHTML = fileInput.files[0].name;
+              fileSize.innerHTML = (fileInput.files[0].size/1024).toFixed(1) + " KB";
+              uploadedFile.style.cssText = "display: flex;";
+              progressBar.style.width = 0;
+              fileFlag = 0;
+          });
+
+          uploadButton.addEventListener("click", () => {
+              let isFileUploaded = fileInput.value;
+              if(isFileUploaded != '') {
+                  if (fileFlag == 0) {
+                      fileFlag = 1;
+                      var width = 0;
+                      var id = setInterval(frame, 50);
+                      function frame() {
+                            if (width >= 390) {
+                              clearInterval(id);
+                              uploadButton.innerHTML = `<span class="material-icons-outlined upload-button-icon"> check_circle </span> Uploaded`;
+                            } else {
+                              width += 5;
+                              progressBar.style.width = width + "px";
+                            }
+                      }
+                    }
+              } else {
+                  cannotUploadMessage.style.cssText = "display: flex; animation: fadeIn linear 1.5s;";
+              }
+          });
+
+          cancelAlertButton.addEventListener("click", () => {
+              cannotUploadMessage.style.cssText = "display: none;";
+          });
+
+          if(isAdvancedUpload) {
+              ["drag", "dragstart", "dragend", "dragover", "dragenter", "dragleave", "drop"].forEach( evt =>
+                  draggableFileArea.addEventListener(evt, e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                  })
+              );
+
+              ["dragover", "dragenter"].forEach( evt => {
+                  draggableFileArea.addEventListener(evt, e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      uploadIcon.innerHTML = 'file_download';
+                      dragDropText.innerHTML = 'Drop your file here!';
+                  });
+              });
+
+              draggableFileArea.addEventListener("drop", e => {
+                  uploadIcon.innerHTML = 'check_circle';
+                  dragDropText.innerHTML = 'File Dropped Successfully!';
+                  document.querySelector(".label").innerHTML = `drag & drop or <span class="browse-files"> <input type="file" class="default-file-input" style=""/> <span class="browse-files-text" style="top: -23px; left: -20px;"> browse file</span> </span>`;
+                  uploadButton.innerHTML = `Upload`;
+
+                  let files = e.dataTransfer.files;
+                  fileInput.files = files;
+                  console.log(files[0].name + " " + files[0].size);
+                  console.log(document.querySelector(".default-file-input").value);
+                  fileName.innerHTML = files[0].name;
+                  fileSize.innerHTML = (files[0].size/1024).toFixed(1) + " KB";
+                  uploadedFile.style.cssText = "display: flex;";
+                  progressBar.style.width = 0;
+                  fileFlag = 0;
+              });
+          }
+
+          removeFileButton.addEventListener("click", () => {
+              uploadedFile.style.cssText = "display: none;";
+              fileInput.value = '';
+              uploadIcon.innerHTML = 'file_upload';
+              dragDropText.innerHTML = 'Drag & drop any file here';
+              document.querySelector(".label").innerHTML = `or <span class="browse-files"> <input type="file" class="default-file-input"/> <span class="browse-files-text">browse file</span> <span>from device</span> </span>`;
+              uploadButton.innerHTML = `Upload`;
+          });
+
+
+
+
+
+
+
+
+
+
+                                </script>
+                                <div class="container">
+                                    <form action='edit_Post/{{id}}' enctype="multipart/form-data" method='POST'>
+                                        {% csrf_token %}
+                                        <input hidden name='userid' readonly type="text" value="{{logeduser.id}}">
+                                        <div class="drag-file-area mx-auto">
+                                            <span class="material-icons-outlined upload-icon"
+                                                  style="position: relative; top: 4pc;"> file_upload </span>
+                                            <label class="label">
+                <span class="browse-files">
+                    <input disabled class=" realupload default-file-input" id="realupload" name='postimg'
+                           style="cursor: pointer; height:6rem;"
+                           type="file"/>
+                </span>
+                                            </label>
+                                            <div class="browse-files-text">browse file <span>from device</span></div>
+                                        </div>
+                                        <span class="cannot-upload-message"> <span
+                                                class="material-icons-outlined">error</span> Please select a file first <span
+                                                class="material-icons-outlined cancel-alert-button">cancel</span> </span>
+                                        <div class="file-block">
+                                            <div class="file-info"><span class="material-icons-outlined file-icon">description</span>
+                                                <span
+                                                        class="file-name"> </span> | <span class="file-size">  </span>
+                                            </div>
+                                            <span class="material-icons remove-file-icon">delete</span>
+                                            <div class="progress-bar"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Heading</label>
+                                            <input class="form-control" name="heading" value="{{post.heading}}" type="text">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Caption</label>
+                                            <textarea class="form-control" name="postcaption" rows="3">{{post.caption}}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Slug</label>
+                                            <input class="form-control" name="slug" value="{{post.slug}}" type="text">
+                                        </div>
+                                        <button class="upload-button mx-auto" type="submit"> Upload</button>
+                                    </form>
+                                </div>
+                                <script type="module">
+    import Autogrow from "https://cdn.jsdelivr.net/npm/vanilla-autogrow@1.0.0/autogrow.min.js";
+    var inst = new Autogrow();
+
+
+
+
+
+                                </script>
+                                <!--Edit Profile Form Start-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- middle wrapper end -->
+            <!-- right wrapper start -->
+            <div class="d-none d-xl-block col-xl-3 right-wrapper"
+                 style="height:100vh; position:sticky; top:70px;">
+                <div class="row">
+                    <div class="col-md-12 grid-margin">
+                        <div class="card rounded">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <h6 class="card-title font-weight-bold mb-0">Post id: {{post.id}}</h6>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Heading:</label>
+                                    <p class="text-muted">{{post.heading}}</p>
+                                </div><div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Caption:</label>
+                                    <p class="text-muted">{{post.caption}}</p>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Slug:</label>
+                                    <p class="text-muted">{{post.slug}}</p>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Likes:</label>
+                                    <p class="text-muted">{{post.caption}}</p>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Upload Date:</label>
+                                    <p class="text-muted">{{post.creatDate}}</p>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Update Date:</label>
+                                    <p class="text-muted">{{post.updateDate}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 grid-margin">
+                        <div class="card rounded">
+                            <div class="card-body">
+                                <h6 class="card-title">Suggestions for you</h6>
+                                {% for user in allSmUser %}
+                                <div class="d-flex justify-content-between mb-2 pb-2  {% if not forloop.last %} border-bottom {% endif %}">
+                                    <a class="btn btn-icon" href="{% url  'irrigreatapp:friendprofile' user.id %}">
+                                        <div class="d-flex align-items-center hover-pointer">
+                                            <img alt=""
+                                                 class="img-xs rounded-circle"
+                                                 src="http://127.0.0.1:8000/media/{{user.image}}">
+                                            <div class="ms-2">
+                                                <p class="mb-0">{{ user.fname }} {{ user.lname }}</p>
+                                                <p class="text-muted mb-0" style="font-size: 11px;">
+                                                    {{user.total_follow}}
+                                                    Follower</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <form action='friendprofile/follow/{{user.id}}' method='POST'>
+                                        {% csrf_token %}
+                                        <div aria-label="Button group with nested dropdown" class="btn-group"
+                                             role="group">
+                                            <button class="btn btn-sm btn-primary btn-sm w-100" name='{{user.id}}'
+                                                    type='submit'
+                                                    value='{{user.id}}'>Follow<i class=""></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- right wrapper end -->
+        </div>
+    </div>
+    <!--Edit Profile End-->
+</div>
+<!--Edit Post End-->
+{% endif %}
+{% endblock baseBody %}

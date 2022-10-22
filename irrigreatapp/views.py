@@ -1,21 +1,23 @@
-from django.shortcuts import render,HttpResponse,redirect, reverse
-from fmiapp.models import FarmerInfo,MerchantInfo
+from django.shortcuts import render, HttpResponse, redirect, reverse
+from fmiapp.models import FarmerInfo, MerchantInfo
 from django.http import HttpResponseRedirect
 import random
-from .models import SmUser,SmUserProfile,Post,Comment
+from .models import SmUser, SmUserProfile, Post, Comment
 from datetime import datetime
+from django.db.models import Q
+
+
 # Create your views here.
 
 def bloghome(request):
-
     global username, userid, logeduser
     try:
         if request.session['smUser']:
             userid = SmUser.objects.get(email=request.session['smUser'])
             username = SmUserProfile.objects.get(email=request.session['smUser'])
-            logeduser=username
+            logeduser = username
         allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
-        post = Post.objects.filter(user_id = username.id)
+        post = Post.objects.filter(user_id=username.id)
 
         comment = Comment.objects.filter(parent=None)
 
@@ -23,14 +25,15 @@ def bloghome(request):
         #     print(comment.id)
 
         path = request.path_info
-        context = {'userid':userid,'username': username,'allSmUser':allSmUser,'post':post,'path':path,'logeduser':logeduser,'comment':comment}
-        return render(request, 'bloghome.html',context)
+        context = {'userid': userid, 'username': username, 'allSmUser': allSmUser, 'post': post, 'path': path,
+                   'logeduser': logeduser, 'comment': comment}
+        return render(request, 'bloghome.html', context)
     except Exception as e:
         print(e)
     return render(request, 'sm_login.html')
 
-def timeLine(request):
 
+def timeLine(request):
     global username, userid, logeduser
     try:
         # print(request.session['smUser'])
@@ -38,19 +41,22 @@ def timeLine(request):
         if request.session['smUser']:
             userid = SmUser.objects.get(email=request.session['smUser'])
             username = SmUserProfile.objects.get(email=request.session['smUser'])
-            logeduser=username
+            logeduser = username
         allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
         post = Post.objects.all().order_by('-updateDate')
         comment = Comment.objects.filter(parent=None)
         path = request.path_info
-        context = {'userid':userid,'username': username,'allSmUser':allSmUser,'post':post,'path':path,'logeduser':logeduser,'comment':comment}
-        return render(request, 'timeLine.html',context)
+        context = {'userid': userid, 'username': username, 'allSmUser': allSmUser, 'post': post, 'path': path,
+                   'logeduser': logeduser, 'comment': comment}
+        return render(request, 'timeLine.html', context)
     except Exception as e:
         print(e)
     return render(request, 'sm_login.html')
 
+
 def smRegView(request):
     return render(request, 'sm_reg.html')
+
 
 def smReg(request):
     try:
@@ -64,12 +70,13 @@ def smReg(request):
         updateDate = datetime.now()
         print('**********')
         creatDate = datetime.now()
-        sm_user = SmUser(fname=fname,lname=lname,email=email,password=password,bdate=bdate,gender=gender,updateDate=updateDate,creatDate=creatDate)
+        sm_user = SmUser(fname=fname, lname=lname, email=email, password=password, bdate=bdate, gender=gender,
+                         updateDate=updateDate, creatDate=creatDate)
         print(sm_user)
         print('**********')
         sm_user.save()
 
-        username = SmUser.objects.get(email = email,password=password)
+        username = SmUser.objects.get(email=email, password=password)
         id = username.id
         user_id = username
         # user_id = request.POST.get('user_id')
@@ -81,7 +88,9 @@ def smReg(request):
         gender = gender
         updateDate = datetime.now()
         creatDate = datetime.now()
-        SmUserProfileObj = SmUserProfile(id=id,user_id=user_id,fname=fname,lname=lname, email= email,password=password, bdate= bdate,gender=gender,updateDate=updateDate,creatDate=creatDate)
+        SmUserProfileObj = SmUserProfile(id=id, user_id=user_id, fname=fname, lname=lname, email=email,
+                                         password=password, bdate=bdate, gender=gender, updateDate=updateDate,
+                                         creatDate=creatDate)
         SmUserProfileObj.save()
         # return HttpResponse('reg')
         return render(request, 'sm_login.html')
@@ -90,18 +99,39 @@ def smReg(request):
         # return HttpResponse(e)
         return render(request, 'sm_reg.html')
 
+
 def smLoginView(request):
     return render(request, 'sm_login.html')
+
 
 def smLogin(request):
     try:
         email = request.POST.get('email')
         password = request.POST.get('password')
-        sm_user = SmUser.objects.get(email = email,password=password)
+        sm_user = SmUser.objects.get(email=email, password=password)
         request.session['smUser'] = email
         return redirect(reverse('irrigreatapp:bloghome'))
     except:
         return redirect(reverse('irrigreatapp:smRegView'))
+
+
+def edit_Profile(request, id):
+    try:
+        logeduser = SmUserProfile.objects.get(email=request.session['smUser'])
+        if id == 'profile':
+            username = SmUserProfile.objects.get(email=request.session['smUser'])
+            post = Post.objects.filter(user_id=username.id)
+            context = {"logeduser": logeduser, "post": post}
+        elif not id == 'profile':
+            post = Post.objects.get(id=id)
+            print(post.slug)
+            print(post.id)
+            context = {"logeduser": logeduser,"post":post,'id':id}
+        return render(request, 'editProfile.html', context)
+    except Exception as e:
+        print(e)
+    return redirect(reverse('irrigreatapp:bloghome'))
+
 
 def smProfile(request):
     if request.session['smUser']:
@@ -121,21 +151,42 @@ def smProfile(request):
     city = request.POST.get('city')
     userType = request.POST.get('user_type')
     about = request.POST.get('about')
+    new_password = request.POST.get('new_password')
+    con_password = request.POST.get('con_password')
     updateDate = datetime.now()
-    SmUserProfile.objects.filter(user_id= user_id,id = profile_id).update(fname=fname,lname=lname,email=email,gender=gender ,city=city,userType=userType, about=about,updateDate=updateDate)
-    SmUser.objects.filter(id= user_id).update(gender=gender)
+    print("$$$$$$$$$$$$$$$$$$$$$")
+    if username.password == password:
+        print(username.password)
+        print(password)
+        print(new_password)
+        print(con_password)
+        SmUserProfile.objects.filter(user_id=user_id, id=profile_id).update(fname=fname, lname=lname, email=email,
+                                                                            gender=gender, city=city, userType=userType,
+                                                                            about=about, updateDate=updateDate)
+        SmUser.objects.filter(id=user_id).update(fname=fname, lname=lname, email=email, gender=gender,
+                                                 updateDate=updateDate)
+        if new_password == con_password:
+            print('_____________')
+            SmUserProfile.objects.filter(user_id=user_id, id=profile_id).update(password=new_password)
+            SmUser.objects.filter(id=user_id).update(password=new_password)
+            print('_____________')
+        print("$$$$$$$$$$$$$$$$$$$$$")
+
+    # SmUser.objects.filter(id= user_id).update(gender=gender)
     return redirect(reverse('irrigreatapp:bloghome'))
 
+
 def smLogout(request):
-    request.session['smUser']= None
+    request.session['smUser'] = None
     return render(request, 'sm_login.html')
 
-def friendprofile(request ,id):
+
+def friendprofile(request, id):
     try:
         follower = SmUser.objects.get(email=request.session['smUser'])
-        sm_userobj = SmUserProfile.objects.get(id = id)
-        logeduser =SmUserProfile.objects.get(email=request.session['smUser'])
-        username = SmUserProfile.objects.get(user_id = sm_userobj.id)
+        sm_userobj = SmUserProfile.objects.get(id=id)
+        logeduser = SmUserProfile.objects.get(email=request.session['smUser'])
+        username = SmUserProfile.objects.get(user_id=sm_userobj.id)
         if username.follow.filter(id=follower.id).exists():
             # follow = False
             followbtn = 'Follow'
@@ -146,8 +197,9 @@ def friendprofile(request ,id):
         allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
         post = Post.objects.filter(user_id=username.id)
         path = request.path_info
-        context = {'username':username,'allSmUser':allSmUser,'post':post,'path':path,'followbtn':followbtn,'logeduser':logeduser}
-        return render(request, 'othersProfile.html',context)
+        context = {'username': username, 'allSmUser': allSmUser, 'post': post, 'path': path, 'followbtn': followbtn,
+                   'logeduser': logeduser}
+        return render(request, 'othersProfile.html', context)
     except Exception as e:
         print('#################')
         print(e)
@@ -155,7 +207,7 @@ def friendprofile(request ,id):
         return redirect(reverse('irrigreatapp:bloghome'))
 
 
-def follow(request,id):
+def follow(request, id):
     follower = SmUser.objects.get(email=request.session['smUser'])
     username = SmUserProfile.objects.get(id=id)
 
@@ -169,23 +221,24 @@ def follow(request,id):
     # return HttpResponseRedirect("url  'irrigreatapp:follow' id")
     return redirect(f'/irrigreatapp/friendprofile/{id}')
 
-def createPost(request,id):
 
+def createPost(request, id):
     heading = request.POST.get('heading')
     caption = request.POST.get('postcaption')
     slug = request.POST.get('slug')
     user_id = request.POST.get('userid')
-    username = SmUserProfile.objects.get(id = user_id)
+    username = SmUserProfile.objects.get(id=user_id)
     user_id = username
 
     image = request.FILES.get('postimg')
     creatDate = datetime.now()
     updateDate = datetime.now()
-    post = Post.objects.create(heading=heading,caption=caption,slug=slug,user_id=user_id,image=image,creatDate=creatDate,updateDate=updateDate)
+    post = Post.objects.create(heading=heading, caption=caption, slug=slug, user_id=user_id, image=image,
+                               creatDate=creatDate, updateDate=updateDate)
     return redirect(f'/irrigreatapp/')
 
 
-def likepost(request,id):
+def likepost(request, id):
     follower = SmUser.objects.get(email=request.session['smUser'])
     path = request.POST.get('path')
     username = Post.objects.get(id=id)
@@ -197,7 +250,7 @@ def likepost(request,id):
         username.likes.add(follower.id)
         likes = True
     print(username.likes)
-    post = Post.objects.filter(id = id)[0]
+    post = Post.objects.filter(id=id)[0]
     # post = Post.total_like
     print('#########')
     print(post)
@@ -205,10 +258,12 @@ def likepost(request,id):
     return HttpResponse(post)
     # return HttpResponseRedirect(path)
 
-def deletePost(request,id):
-    post = Post.objects.filter(id = id)
+
+def deletePost(request, id):
+    post = Post.objects.filter(id=id)
     post.delete()
     return redirect(reverse('irrigreatapp:bloghome'))
+
 
 def post_Comment(request):
     if request.method == "POST":
@@ -223,15 +278,17 @@ def post_Comment(request):
         body = request.POST.get('comment_body')
         updateDate = datetime.now()
         parent_sno = request.POST.get('comment_id')
-        if parent_sno=="":
+        if parent_sno == "":
             comment = Comment(post=post, blogger_id=blogger, commenter_id=commenter, body=body, updateDate=updateDate)
             comment.save()
         else:
             parent = Comment.objects.get(id=parent_sno)
-            comment = Comment(post=post,blogger_id=blogger,commenter_id=commenter,body=body,updateDate=updateDate,parent=parent)
+            comment = Comment(post=post, blogger_id=blogger, commenter_id=commenter, body=body, updateDate=updateDate,
+                              parent=parent)
             comment.save()
 
     return HttpResponse('Comment')
+
 
 def fullBlog(request, id):
     try:
@@ -241,18 +298,42 @@ def fullBlog(request, id):
             logeduser = username
         post = Post.objects.get(id=id)
         print(post.slug)
-        payload = {'logeduser':logeduser,'post':post}
-        return render(request, 'fullBlog.html',payload)
+        payload = {'logeduser': logeduser, 'post': post}
+        return render(request, 'fullBlog.html', payload)
     except:
         return redirect(reverse('irrigreatapp:bloghome'))
 
-def search(request,id):
+
+def search(request, id):
     if request.method == "POST":
         searchReq = request.POST.get('search')
-        print(searchReq)
-        search = SmUserProfile.objects.filter(Q(fname__icontains=searchReq) | Q(lname__icontains=searchReq))
+        try:
+            print('searchReq')
+            post = Post.objects.filter(
+                Q(caption__icontains=searchReq) | Q(heading__icontains=searchReq) | Q(slug__icontains=searchReq) | Q(
+                    slug__icontains=searchReq))
+            searchUser = SmUserProfile.objects.filter(
+                Q(fname__icontains=searchReq) | Q(lname__icontains=searchReq) | Q(gender__icontains=searchReq) | Q(
+                    email__icontains=searchReq) | Q(city__icontains=searchReq) | Q(userType__icontains=searchReq) | Q(
+                    about__icontains=searchReq) | Q(id__icontains=searchReq))
+        except Exception as e:
+            print(e)
+            searchPost = ""
+            searchUser = ""
         logeduser = SmUserProfile.objects.get(email=request.session['smUser'])
-        post = Post.objects.all().order_by('-updateDate')[:3]
+        sugestpost = Post.objects.all().order_by('-updateDate')[:3]
         allSmUser = SmUserProfile.objects.all().order_by('?')[:3]
-        context = {'search':search,'post':post,'logeduser':logeduser,'allSmUser':allSmUser}
-    return render(request,'search.html',context)
+        context = {'searchUser': searchUser, 'post': post, 'sugestpost': sugestpost, 'logeduser': logeduser,
+                   'allSmUser': allSmUser, 'searchReq': searchReq}
+    return render(request, 'search.html', context)
+
+def edit_Post(request, id):
+    heading = request.POST.get('heading')
+    caption = request.POST.get('postcaption')
+    slug = request.POST.get('slug')
+    user_id = request.POST.get('userid')
+    username = SmUserProfile.objects.get(id=user_id)
+    image = request.FILES.get('postimg')
+    updateDate = datetime.now()
+    Post.objects.filter(id=id).update(heading=heading,caption=caption,slug=slug,updateDate=updateDate)
+    return redirect(f'/irrigreatapp/edit_Profile/{id}')

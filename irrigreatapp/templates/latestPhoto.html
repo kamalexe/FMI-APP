@@ -12,9 +12,11 @@
                 </figure>
             </a>
         </div>
-
-
         {% endif %}
+        {% empty %}
+        <div>
+            <h3 class="text-muted">Not Found</h3>
+        </div>
         {% endfor %}
     </div>
 </div>
