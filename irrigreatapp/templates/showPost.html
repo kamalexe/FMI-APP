@@ -38,7 +38,7 @@
                             <line x1="15" y1="9" x2="15.01" y2="9"></line>
                         </svg>
                         <span class="">Unfollow</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
+                    <a class="dropdown-item d-flex align-items-center" href="{% url  'irrigreatapp:fullBlog' p.id %}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -47,7 +47,7 @@
                             <path d="M4 20h7a4 4 0 0 0 4-4V4"></path>
                         </svg>
                         <span class="">Go to post</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
+                    <a class="dropdown-item d-flex align-items-center" href="/irrigreatapp/edit_Profile/{{p.id}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -58,7 +58,7 @@
                             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
                             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                         </svg>
-                        <span class="">Share</span></a>
+                        <span class="">Edit Post</span></a>
                     <a class="dropdown-item d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -239,13 +239,7 @@
                                     <h5><a href="/irrigreatapp/friendprofile/{{comment.commenter_id.id}}"
                                            class="profile-link">{{ comment.commenter_id.fname }}
                                         {{comment.commenter_id.lname}}</a>
-                                        <span
-                                                class="following">following</span></h5>
                                     <p class="text-muted">Published a comment on {{ comment.creatDate.date }}</p>
-                                </div>
-                                <div class="reaction">
-                                    <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 13</a>
-                                    <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
                                 </div>
                                 <!-- <div class="line-divider"></div>-->
                                 <div class="post-comment rounded">

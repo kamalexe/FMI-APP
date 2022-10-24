@@ -745,7 +745,7 @@ body {
                                 <div class="container">
                                     <form action='edit_Post/{{id}}' enctype="multipart/form-data" method='POST'>
                                         {% csrf_token %}
-                                        <input hidden name='userid' readonly type="text" value="{{logeduser.id}}">
+                                        <input hidden name='userid' readonly type="text" value="{{post.user_id.id}}">
                                         <div class="drag-file-area mx-auto">
                                             <span class="material-icons-outlined upload-icon"
                                                   style="position: relative; top: 4pc;"> file_upload </span>

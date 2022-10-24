@@ -20,24 +20,18 @@ def bloghome(request):
         post = Post.objects.filter(user_id=username.id)
 
         comment = Comment.objects.filter(parent=None)
-
-        # for comment in comment:
-        #     print(comment.id)
-
         path = request.path_info
         context = {'userid': userid, 'username': username, 'allSmUser': allSmUser, 'post': post, 'path': path,
                    'logeduser': logeduser, 'comment': comment}
         return render(request, 'bloghome.html', context)
     except Exception as e:
-        print(e)
+        return render(request, 'sm_login.html')
     return render(request, 'sm_login.html')
 
 
 def timeLine(request):
     global username, userid, logeduser
     try:
-        # print(request.session['smUser'])
-        # print('Timeline')
         if request.session['smUser']:
             userid = SmUser.objects.get(email=request.session['smUser'])
             username = SmUserProfile.objects.get(email=request.session['smUser'])
@@ -50,7 +44,7 @@ def timeLine(request):
                    'logeduser': logeduser, 'comment': comment}
         return render(request, 'timeLine.html', context)
     except Exception as e:
-        print(e)
+        return render(request, 'sm_login.html')
     return render(request, 'sm_login.html')
 
 
@@ -60,7 +54,6 @@ def smRegView(request):
 
 def smReg(request):
     try:
-        print(request.method)
         fname = request.POST.get('fname')
         lname = request.POST.get('lname')
         email = request.POST.get('email')
@@ -68,14 +61,10 @@ def smReg(request):
         bdate = request.POST.get('bdate')
         gender = request.POST.get('gender')
         updateDate = datetime.now()
-        print('**********')
         creatDate = datetime.now()
         sm_user = SmUser(fname=fname, lname=lname, email=email, password=password, bdate=bdate, gender=gender,
                          updateDate=updateDate, creatDate=creatDate)
-        print(sm_user)
-        print('**********')
         sm_user.save()
-
         username = SmUser.objects.get(email=email, password=password)
         id = username.id
         user_id = username
@@ -95,8 +84,6 @@ def smReg(request):
         # return HttpResponse('reg')
         return render(request, 'sm_login.html')
     except Exception as e:
-        # print(e)
-        # return HttpResponse(e)
         return render(request, 'sm_reg.html')
 
 
@@ -119,27 +106,24 @@ def edit_Profile(request, id):
     try:
         logeduser = SmUserProfile.objects.get(email=request.session['smUser'])
         if id == 'profile':
-            username = SmUserProfile.objects.get(email=request.session['smUser'])
-            post = Post.objects.filter(user_id=username.id)
+            post = Post.objects.filter(user_id=logeduser.id)
             context = {"logeduser": logeduser, "post": post}
         elif not id == 'profile':
             post = Post.objects.get(id=id)
-            print(post.slug)
-            print(post.id)
             context = {"logeduser": logeduser,"post":post,'id':id}
         return render(request, 'editProfile.html', context)
     except Exception as e:
         print(e)
+        return HttpResponse(e)
     return redirect(reverse('irrigreatapp:bloghome'))
 
 
 def smProfile(request):
     if request.session['smUser']:
         # username = FarmerInfo.objects.get(userid=request.session['farmer'])
-        username = SmUser.objects.get(email=request.session['smUser'])
+        username = SmUserProfile.objects.get(email=request.session['smUser'])
     else:
         return render(request, 'sm_login.html')
-    # user_id = username.id
     profile_id = request.POST.get('profileId')
     user_id = request.POST.get('userid')
     fname = request.POST.get('fname')
@@ -151,29 +135,20 @@ def smProfile(request):
     city = request.POST.get('city')
     userType = request.POST.get('user_type')
     about = request.POST.get('about')
-    new_password = request.POST.get('new_password')
-    con_password = request.POST.get('con_password')
     updateDate = datetime.now()
-    print("$$$$$$$$$$$$$$$$$$$$$")
     if username.password == password:
-        print(username.password)
-        print(password)
-        print(new_password)
-        print(con_password)
-        SmUserProfile.objects.filter(user_id=user_id, id=profile_id).update(fname=fname, lname=lname, email=email,
-                                                                            gender=gender, city=city, userType=userType,
-                                                                            about=about, updateDate=updateDate)
+        SmUserProfile.objects.filter(user_id=username.id, id=username.id).update(fname=fname, lname=lname, email=email,
+                                                                                 gender=gender, city=city,
+                                                                                 userType=userType,
+                                                                                 about=about, updateDate=updateDate)
         SmUser.objects.filter(id=user_id).update(fname=fname, lname=lname, email=email, gender=gender,
                                                  updateDate=updateDate)
-        if new_password == con_password:
-            print('_____________')
-            SmUserProfile.objects.filter(user_id=user_id, id=profile_id).update(password=new_password)
-            SmUser.objects.filter(id=user_id).update(password=new_password)
-            print('_____________')
-        print("$$$$$$$$$$$$$$$$$$$$$")
-
-    # SmUser.objects.filter(id= user_id).update(gender=gender)
-    return redirect(reverse('irrigreatapp:bloghome'))
+        new_password = request.POST.get('new_password')
+        con_password = request.POST.get('con_password')
+        if new_password == con_password and new_password != '':
+            SmUserProfile.objects.filter(user_id=username.id, id=username.id).update(password=new_password)
+            SmUser.objects.filter(id=username.id).update(password=new_password)
+    return redirect(f'/irrigreatapp/edit_Profile/profile')
 
 
 def smLogout(request):
@@ -201,10 +176,8 @@ def friendprofile(request, id):
                    'logeduser': logeduser}
         return render(request, 'othersProfile.html', context)
     except Exception as e:
-        print('#################')
-        print(e)
-        print('#################')
-        return redirect(reverse('irrigreatapp:bloghome'))
+        return HttpResponse(e)
+    return redirect(reverse('irrigreatapp:bloghome'))
 
 
 def follow(request, id):
@@ -217,8 +190,6 @@ def follow(request, id):
     else:
         username.follow.add(follower.id)
         follow = True
-    # return reverse('irrigreatapp:follow'id)
-    # return HttpResponseRedirect("url  'irrigreatapp:follow' id")
     return redirect(f'/irrigreatapp/friendprofile/{id}')
 
 
@@ -249,12 +220,7 @@ def likepost(request, id):
     else:
         username.likes.add(follower.id)
         likes = True
-    print(username.likes)
     post = Post.objects.filter(id=id)[0]
-    # post = Post.total_like
-    print('#########')
-    print(post)
-    print('#########')
     return HttpResponse(post)
     # return HttpResponseRedirect(path)
 
@@ -297,7 +263,6 @@ def fullBlog(request, id):
             username = SmUserProfile.objects.get(email=request.session['smUser'])
             logeduser = username
         post = Post.objects.get(id=id)
-        print(post.slug)
         payload = {'logeduser': logeduser, 'post': post}
         return render(request, 'fullBlog.html', payload)
     except:
@@ -308,7 +273,6 @@ def search(request, id):
     if request.method == "POST":
         searchReq = request.POST.get('search')
         try:
-            print('searchReq')
             post = Post.objects.filter(
                 Q(caption__icontains=searchReq) | Q(heading__icontains=searchReq) | Q(slug__icontains=searchReq) | Q(
                     slug__icontains=searchReq))
@@ -317,7 +281,6 @@ def search(request, id):
                     email__icontains=searchReq) | Q(city__icontains=searchReq) | Q(userType__icontains=searchReq) | Q(
                     about__icontains=searchReq) | Q(id__icontains=searchReq))
         except Exception as e:
-            print(e)
             searchPost = ""
             searchUser = ""
         logeduser = SmUserProfile.objects.get(email=request.session['smUser'])
@@ -328,12 +291,22 @@ def search(request, id):
     return render(request, 'search.html', context)
 
 def edit_Post(request, id):
-    heading = request.POST.get('heading')
-    caption = request.POST.get('postcaption')
-    slug = request.POST.get('slug')
-    user_id = request.POST.get('userid')
-    username = SmUserProfile.objects.get(id=user_id)
-    image = request.FILES.get('postimg')
-    updateDate = datetime.now()
-    Post.objects.filter(id=id).update(heading=heading,caption=caption,slug=slug,updateDate=updateDate)
-    return redirect(f'/irrigreatapp/edit_Profile/{id}')
+    try:
+        heading = request.POST.get('heading')
+        caption = request.POST.get('postcaption')
+        slug = request.POST.get('slug')
+        user_id = request.POST.get('userid')
+        username = SmUserProfile.objects.get(id=user_id)
+        image = request.FILES.get('postimg')
+        updateDate = datetime.now()
+        if username.email ==  request.session['smUser']:
+            print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
+            print(username.email)
+            print(request.session['smUser'])
+            print('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
+            Post.objects.filter(id=id).update(heading=heading,caption=caption,slug=slug,updateDate=updateDate)
+        else:
+            return HttpResponse("You cant this Post")
+        return redirect(f'/irrigreatapp/edit_Profile/{id}')
+    except Exception as e:
+        return render(request, 'sm_login.html')
